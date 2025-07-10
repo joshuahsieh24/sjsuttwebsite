@@ -1,0 +1,369 @@
+{
+    "executive": [
+        {
+            "name": "Huy Duong",
+            "role": "Regent",
+            "image": "./headshots/huy.jpg",
+            "major": "Software Engineering",
+            "class": "Kappa"
+        },
+        {
+            "name": "Vivek Bhakta",
+            "role": "Vice Regent",
+            "image": "./headshots/vivek.jpg",
+            "major": "Manufacturing Systems",
+            "class": "Mu"
+        },
+        {
+            "name": "Logan Lei-Chong",
+            "role": "Scribe",
+            "image": "/headshots/logan.jpg",
+            "major": "Mechanical Engineering",
+            "class": "Kappa"
+        },
+        {
+            "name": "Drew Tom",
+            "role": "Treasurer",
+            "image": "/headshots/drew.jpg",
+            "major": "Computer Network Systems Management",
+            "class": "Iota"
+        },
+        {
+            "name": "Manan Upadhyay",
+            "role": "Corresponding Secretary",
+            "image": "./headshots/manan.jpg",
+            "major": "Industrial & Systems Engineering",
+            "class": "Iota"
+        },
+        {
+            "name": "Bradley Okajima",
+            "role": "Risk Management Chair",
+            "image": "./headshots/bradley.jpg",
+            "major": "Industrial & Systems Engineering",
+            "class": "Eta"
+        }
+    ],
+    "chairs": [
+        {
+        "name": "Alex Dang",
+        "role": "New Member Educator",
+        "image": "./headshots/alex.jpg",
+        "major": "Civil Engineering",
+        "class": "Kappa"
+        },
+        {
+        "name": "Helena Teung-Ouk",
+        "role": "New Member Educator",
+        "image": "./headshots/helena.jpg",
+        "major": "Mechanical Engineering",
+        "class": "Kappa"
+        },
+        {
+        "name": "Kelani Dolan",
+        "role": "Rush Co-Chair",
+        "image": "./headshots/kelani.jpg",
+        "major": "Software Engineering",
+        "class": "Lambda"
+        },
+        {
+        "name": "Stephannie Jimenez Tejeda",
+        "role": "Rush Co-Chair",
+        "image": "./headshots/stephannie.jpg",
+        "major": "Aerospace Engineering",
+        "class": "Mu"
+        },
+        {
+        "name": "Hari Kotamsetti",
+        "role": "Webmaster",
+        "image": "./headshots/hari.jpg",
+        "major": "Computer Engineering",
+        "class": "Kappa"
+        },
+        {
+        "name": "Jomi Arockiasamy",
+        "role": "Community Service Chair",
+        "image": "./headshots/jomi.jpg",
+        "major": "Data Science",
+        "class": "Mu"
+        },
+        {
+        "name": "Arsh Shergill",
+        "role": "Professional Co-Chair",
+        "image": "./headshots/arsh.jpg",
+        "major": "Electrical Engineering",
+        "class": "Lambda"
+        },
+        {
+        "name": "Bradley Okajima",
+        "role": "Professional Co-Chair",
+        "image": "./headshots/bradley.jpg",
+        "major": "Industrial & Systems Engineering",
+        "class": "Eta"
+        },
+        {
+        "name": "Kenny Li",
+        "role": "Fundraising Chair",
+        "image": "./headshots/kenny.jpg",
+        "major": "Computer Science",
+        "class": "Lambda"
+        },
+        {
+        "name": "Rachel Tran",
+        "role": "Brotherhood Co-Chair",
+        "image": "./headshots/rachel.jpg",
+        "major": "Software Engineering",
+        "class": "Mu"
+        },
+        {
+        "name": "Olivia Huerta",
+        "role": "Brotherhood Co-Chair",
+        "image": "./headshots/olivia.jpg",
+        "major": "Biomedical Engineering",
+        "class": "Mu"
+        },
+        {
+        "name": "Kylie Lam",
+        "role": "Historian",
+        "image": "./headshots/kylie.jpg",
+        "major": "Packaging Science",
+        "class": "Kappa"
+        },
+        {
+        "name": "Yenyi Chen",
+        "role": "Merch Coordinator",
+        "image": "./headshots/yenyi.jpg",
+        "major": "Aerospace Engineering",
+        "class": "Mu"
+        },
+        {
+        "name": "Darrius Robertson",
+        "role": "Special Events Coordinator",
+        "image": "./headshots/darrius.jpg",
+        "major": "Engineering Technology",
+        "class": "Mu"
+        },
+        {
+        "name": "Kyle Chu",
+        "role": "Software Technical Co-Chair",
+        "image": "./headshots/kyle.jpg",
+        "major": "Software Engineering",
+        "class": "Mu"
+        },
+        {
+        "name": "Kevin Tsoi",
+        "role": "Software Technical Co-Chair",
+        "image": "./headshots/kevin.jpg",
+        "major": "Computer Science",
+        "class": "Mu"
+        },
+        {
+        "name": "Kaito Kermabon",
+        "role": "Hardware Technical Chair",
+        "image": "./headshots/kaito.jpg",
+        "major": "Aerospace Engineering",
+        "class": "Lambda"
+        }
+    ],
+    "actives": [
+        {
+        "name": "Alan Wang",
+        "position": "Webmaster",
+        "semester": "Fall 2023",
+        "major": "Computer Science",
+        "email": "alan.j.wang@sjsu.edu",
+        "phone": "(510) 990-7187"
+        },
+        {
+        "name": "Alex Dang",
+        "position": "Rush Chair",
+        "semester": "Spring 2024",
+        "major": "Civil Engineering",
+        "email": "alex.dang@sjsu.edu",
+        "phone": "(209) 635-0168"
+        },
+        {
+        "name": "Joshua Hsieh",
+        "position": "Rush Chair",
+        "semester": "Spring 2024",
+        "major": "Software Engineering",
+        "email": "joshua.hsieh@sjsu.edu",
+        "phone": "(669) 251-7685"
+        },
+        {
+        "name": "Michael Hamaty",
+        "position": "Fundraising Chair",
+        "semester": "Spring 2024",
+        "major": "Data Science",
+        "email": "michael.hamaty@sjsu.edu",
+        "phone": "(714) 331-2716"
+        },
+        {
+        "name": "Arsh Shergill",
+        "position": "Fundraising & Professional Chair",
+        "semester": "Fall 2024",
+        "major": "Electrical Engineering",
+        "email": "arsh.shergill@sjsu.edu",
+        "phone": "(408) 387-2980"
+        },
+        {
+        "name": "Kelani Dolan",
+        "position": "Merch Coordinator",
+        "semester": "Fall 2024",
+        "major": "Software Engineering",
+        "email": "kelani.dolan@sjsu.edu",
+        "phone": "(408) 921-8646"
+        },
+        {
+        "name": "Logan Lei-Chong",
+        "position": "Community Service Chair",
+        "semester": "Fall 2024",
+        "major": "Computer Engineering",
+        "email": "logan.lei-chong@sjsu.edu",
+        "phone": "(510) 750-5877"
+        },
+        {
+        "name": "Raven Libunao",
+        "position": "Special Events Coordinator",
+        "semester": "Fall 2024",
+        "major": "Civil Engineering",
+        "email": "raven.libunao@sjsu.edu",
+        "phone": "(510) 906-6248"
+        },
+        {
+        "name": "Nancy Diaz",
+        "position": "Historian",
+        "semester": "Spring 2022",
+        "major": "Engineering Tech-CNSM",
+        "email": "nancydiaz.thetatau@gmail.com",
+        "phone": "(949) 402-2699"
+        },
+        {
+        "name": "Owen Hall",
+        "position": "Software Technical Chair",
+        "semester": "Fall 2024",
+        "major": "Computer Science",
+        "email": "owen.hall@sjsu.edu",
+        "phone": "(925) 315-7015"
+        },
+        {
+        "name": "Wesley Huang",
+        "semester": "Spring 2023",
+        "major": "Civil Engineering",
+        "email": "wesley.huang@sjsu.edu",
+        "phone": "(415) 297-1829"
+        },
+        {
+        "name": "Jacky Zhuang",
+        "semester": "Spring 2023",
+        "major": "Manufacturing Systems",
+        "email": "jazhuang64@gmail.com",
+        "phone": "(415) 218-1303"
+        },
+        {
+        "name": "Janelle Bautista",
+        "semester": "Fall 2023",
+        "major": "Packaging Science",
+        "email": "janellembautista@gmail.com",
+        "phone": "(408) 415-1846"
+        },
+        {
+        "name": "Justin Doan",
+        "semester": "Fall 2023",
+        "major": "Electrical Engineering",
+        "email": "justindoan920@gmail.com",
+        "phone": "(408) 307-5880"
+        },
+        {
+        "name": "Manan Upadhyay",
+        "semester": "Fall 2023",
+        "major": "Mechanical Engineering",
+        "email": "manan.upadhyay@sjsu.edu",
+        "phone": "(916) 586-6372"
+        },
+        {
+        "name": "Stefan Le",
+        "semester": "Fall 2023",
+        "major": "Computer Science & Linguistics",
+        "email": "stefan.le@sjsu.edu",
+        "phone": "(408) 643-2630"
+        },
+        {
+        "name": "James Kim",
+        "semester": "Fall 2023",
+        "major": "Software Engineering",
+        "email": "jihong.kim@sjsu.edu",
+        "phone": "(408) 387-2980"
+        },
+        {
+        "name": "Helena Teung-Ouk",
+        "semester": "Spring 2024",
+        "major": "Interdisciplinary Engineering",
+        "minor": "Robotics",
+        "email": "helenateungouk@gmail.com",
+        "phone": "(209) 400-0155"
+        },
+        {
+        "name": "Kylie Lam",
+        "semester": "Spring 2024",
+        "major": "Packaging Science",
+        "email": "kylielam097@gmail.com",
+        "phone": "(562) 822-1961"
+        },
+        {
+        "name": "Sachi Kelkar",
+        "semester": "Spring 2024",
+        "major": "Computer Engineering",
+        "email": "sachi.kelkar@sjsu.edu",
+        "phone": "(669) 264-8629"
+        },
+        {
+        "name": "Spandan Kottakota",
+        "semester": "Spring 2024",
+        "major": "Computer Engineering",
+        "email": "spandankottakota@gmail.com",
+        "phone": "(925) 336-5887"
+        },
+        {
+        "name": "Timmy Chen",
+        "semester": "Spring 2024",
+        "major": "Data Science",
+        "email": "timmy.chen@sjsu.edu",
+        "phone": "(510) 737-8224"
+        },
+        {
+        "name": "Albert Chan",
+        "semester": "Spring 2024",
+        "major": "Data Science",
+        "email": "albert.chan01@sjsu.edu",
+        "phone": "(669) 609-4253"
+        },
+        {
+        "name": "Sohum Tiwary",
+        "semester": "Spring 2023",
+        "major": "Computer Engineering",
+        "email": "sohum.tiwary@gmail.com",
+        "phone": "(925) 964-7171"
+        },
+        {
+        "name": "Kenny Li",
+        "semester": "Fall 2024",
+        "major": "Computer Science",
+        "email": "kenny.b.li@sjsu.edu",
+        "phone": "(415) 539-6749"
+        },
+        {
+        "name": "Gibson Sacramento",
+        "semester": "Fall 2022",
+        "major": "Applied Mathematics",
+        "email": "gibson.sacramento@sjsu.edu",
+        "phone": "(925) 856-7493"
+        },
+        {
+        "name": "Russell Semsem",
+        "semester": "Fall 2021",
+        "major": "Computer Science",
+        "email": "semsemrussell@gmail.com",
+        "phone": "(669) 225-5859"
+        }
+    ]
+}
