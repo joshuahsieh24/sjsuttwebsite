@@ -9,6 +9,7 @@ const Navbar: React.FC = () => {
   const [menuOpen, setMenuOpen] = useState<boolean>(false);
 
   const toggleMenu = (): void => {
+    console.log(menuOpen)
     setMenuOpen(!menuOpen);
   };
 
@@ -106,43 +107,51 @@ const Navbar: React.FC = () => {
           <span className="block w-8 h-1 bg-white my-1"></span>
         </button>
 
+        {menuOpen && (
+          <div
+            className="fixed inset-0 bg-opacity-50 z-30 md:hidden"
+            onClick={() => setMenuOpen(false)}
+          />
+        )}
+
         {/* Mobile Menu */}
-        <div
-          className={`fixed top-0 right-0 w-[250px] h-full z-40 bg-[#141416] shadow-lg transition-all duration-300 ${
-            menuOpen ? "right-0" : "-right-[300px]"
-          } md:hidden`}
-        >
-          <ul className="mt-24 pr-2">
-            <li>
-              <Link href="/about" className="block text-lg px-6 py-3 font-semibold text-white hover:text-[#fecb33]">
-                About Us
-              </Link>
-            </li>
-            <li>
-              <Link href="#" className="block text-lg px-6 py-3 font-semibold text-white hover:text-[#fecb33]">
-                Brothers
-              </Link>
-            </li>
-            <li>
-              <Link href="#" className="block text-lg px-6 py-3 font-semibold text-white hover:text-[#fecb33]">
-                Rush
-              </Link>
-            </li>
-            <li>
-              <Link href="/faq" className="block text-lg px-6 py-3 font-semibold text-white hover:text-[#fecb33]">
-                FAQ
-              </Link>
-            </li>
-            <li>
-              <Link
-                href="#"
-                className="block w-4/5 mx-auto my-2 py-2 text-center border-2 border-[#fecb33] rounded-full bg-[#fecb33] font-semibold text-[#141416] hover:opacity-80 transition"
-              >
-                Apply
-              </Link>
-            </li>
-          </ul>
-        </div>
+        {menuOpen && (
+          <div
+            className="fixed top-0 right-0 w-[250px] h-full z-40 bg-[#141416] shadow-lg transition-all duration-300 md:hidden"
+          >
+            <ul className="mt-24 pr-2">
+              <li>
+                <Link href="/about" className="block text-lg px-6 py-3 font-semibold text-white hover:text-[#fecb33]" onClick={() => setMenuOpen(false)}>
+                  About Us
+                </Link>
+              </li>
+              <li>
+                <Link href="/brothers" className="block text-lg px-6 py-3 font-semibold text-white hover:text-[#fecb33]" onClick={() => setMenuOpen(false)}>
+                  Brothers
+                </Link>
+              </li>
+              <li>
+                <Link href="/rush" className="block text-lg px-6 py-3 font-semibold text-white hover:text-[#fecb33]" onClick={() => setMenuOpen(false)}>
+                  Rush
+                </Link>
+              </li>
+              <li>
+                <Link href="/faq" className="block text-lg px-6 py-3 font-semibold text-white hover:text-[#fecb33]" onClick={() => setMenuOpen(false)}>
+                  FAQ
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="#"
+                  className="block w-4/5 mx-auto my-2 py-2 text-center border-2 border-[#fecb33] rounded-full bg-[#fecb33] font-semibold text-[#141416] hover:opacity-80 transition"
+                  onClick={() => setMenuOpen(false)}
+                >
+                  Apply
+                </Link>
+              </li>
+            </ul>
+          </div>
+        )}
       </div>
     </nav>
   );
