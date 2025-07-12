@@ -50,7 +50,7 @@ export default function About() {
                     <h1 className="text-[#fecb33] font-semibold text-2xl mb-4">OUR VALUES</h1>
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
 
-                        <div className="flex flex-col items-center p-8 bg-[#18181a] rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300">
+                        <div className="flex flex-col items-center p-8 bg-[#141416] rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300">
                             <p className="text-5xl font-bold text-[#e4e4e4] mb-4">01.</p>
                             <h3 className="text-2xl font-semibold text-[#e4e4e4] mb-2">Brotherhood</h3>
                             <p className="text-base text-[#787e91] leading-relaxed text-center">
@@ -59,7 +59,7 @@ export default function About() {
                             </p>
                         </div>
 
-                        <div className="flex flex-col items-center p-8 bg-[#18181a] rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300">
+                        <div className="flex flex-col items-center p-8 bg-[#141416] rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300">
                             <p className="text-5xl font-bold text-[#e4e4e4] mb-4">02.</p>
                             <h3 className="text-2xl font-semibold text-[#e4e4e4] mb-2">Community Service</h3>
                             <p className="text-base text-[#787e91] leading-relaxed text-center">
@@ -68,7 +68,7 @@ export default function About() {
                             </p>
                         </div>
 
-                        <div className="flex flex-col items-center p-8 bg-[#18181a] rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300">
+                        <div className="flex flex-col items-center p-8 bg-[#141416] rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300">
                             <p className="text-5xl font-bold text-[#e4e4e4] mb-4">03.</p>
                             <h3 className="text-2xl font-semibold text-[#e4e4e4] mb-2">Professionalism</h3>
                             <p className="text-base text-[#787e91] leading-relaxed text-center">
@@ -88,21 +88,22 @@ export default function About() {
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
 
                 <ValueCard
-                    frontImage="/images/retreat.jpg"
+                    frontImage="/images/mu-class.jpg"
                     title="PNM Classes"
-                    description="We forge lifelong friendships and a network of professional relationships."
+                    description="Potential New Members are put into classes to learn, grow, and bond with each other!"
                 />
 
                 <ValueCard
-                    frontImage="/images/retreat.jpg"
+                    frontImage="/images/helena&jaden.jpg"
                     title="Big Brothers"
-                    description="We forge lifelong friendships and a network of professional relationships."
+                    description="Each Potential New Member is matched to a Big Brother that shares their same interests and hobbies!"
                 />
 
                 <ValueCard
-                    frontImage="/images/retreat.jpg"
+                    frontImage="/images/fam2.jpg"
                     title="Families"
-                    description="We forge lifelong friendships and a network of professional relationships."
+                    description="Our chapter is broken up into four families, each descending from a founding brother of Omega Epsilon Chapter.
+                    Each family provides a closer-knit community for brothers to connect and bond with."
                 />
                 </div>
             </div>
@@ -170,12 +171,14 @@ export default function About() {
                 <div className="flex flex-col md:flex-row items-center justify-between gap-8 pt-8">
                     <div className="flex-1 max-w-[50%] text-left">
                         <div className="grid grid-rows-[40px_auto]">
-                            <h2 className="text-[#fecb33] font-semibold mb-2 text-2xl">WHERE WE'VE WORKED</h2>
+                            <h2 className="text-[#fecb33] font-semibold mb-2 text-2xl">
+                            WHERE WE&rsquo;VE WORKED
+                            </h2>
                             <p className="text-[#787e91] text-base">
-                                We strive to provide our brothers with the resources they need to accomplish their professional goals,
-                                and further their careers. Whether it's through recruiter mock interviews, resume workshops, or networking
-                                opportunities, the Omega Epsilon Chapter of Theta Tau here at San Jose State is committed to providing the best
-                                tools and support for our brothers to succeed in their professional endeavors.
+                            We strive to provide our brothers with the resources they need to accomplish their professional goals,
+                            and further their careers. Whether it&rsquo;s through recruiter mock interviews, resume workshops, or networking
+                            opportunities, the Omega Epsilon Chapter of Theta Tau here at San Jose State is committed to providing the best
+                            tools and support for our brothers to succeed in their professional endeavors.
                             </p>
                         </div>
                     </div>

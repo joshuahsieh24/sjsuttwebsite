@@ -1,72 +1,56 @@
-"use client";
-import Head from "next/head";
-import { useEffect } from "react";
+'use client';
+import Head from 'next/head';
+import { useState } from 'react';
+
+interface FAQItem {
+  question: string;
+  answer: string;
+}
+
+const faqData: FAQItem[] = [
+  {
+    question: 'What is a professional fraternity?',
+    answer:
+      'A professional fraternity is a brotherhood consisting chiefly of individuals in a specific field of education, promoting professional development in addition to strengthening brotherly ties.',
+  },
+  {
+    question: 'What is rush?',
+    answer:
+      'Rush is an opportunity for you to learn more about Theta Tau by meeting both our active and graduated brothers. Rush consists of multiple events that give you a taste of what our fraternity stands for, whether you are a good fit for us, and whether we are a good fit for you.',
+  },
+  {
+    question: 'Who can rush?',
+    answer:
+      'Students must be full-time and in good academic standing with the university (above 2.0 GPA). Masters students are also encouraged to rush.',
+  },
+  {
+    question: 'What is a bid?',
+    answer:
+      'A bid is a formal invitation to begin pledging — the process of becoming a brother.',
+  },
+  {
+    question: 'How do you choose who receives a bid?',
+    answer:
+      'Theta Tau looks for engineers who exemplify Brotherhood, Professionalism, and Service. We review each applicant holistically: grades, personality, professionalism, resume, and more.',
+  },
+  {
+    question: 'Do you only accept engineering majors?',
+    answer:
+      'No, we’ve accepted students in Computer Science, Applied Math, Packaging, and Cognitive Science as well.',
+  },
+  {
+    question: 'What is pledging?',
+    answer:
+      'Pledging is the process by which individuals integrate themselves into the brotherhood. It includes professional development, service projects, and bonding activities.',
+  },
+];
 
 export default function QuestionsPage() {
-  useEffect(() => {
-    const faqContainer = document.querySelector(".faq-content");
+  const [openIndex, setOpenIndex] = useState<number | null>(0); // first one open by default
 
-    const handleClick = (e: Event) => {
-      const target = e.target as HTMLElement | null;
-      if (!target) return;
-
-      const groupHeader = target.closest(".faq-group-header") as HTMLElement | null;
-      if (!groupHeader) return;
-
-      const group = groupHeader.parentElement;
-      const groupBody = group?.querySelector(".faq-group-body");
-      const icon = groupHeader.querySelector("svg");
-
-      // Toggle the FAQ answer visibility
-      if (groupBody) {
-        groupBody.classList.toggle("open");
-      }
-
-      const otherGroups = faqContainer?.querySelectorAll(".faq-group");
-      otherGroups?.forEach((otherGroup) => {
-        if (otherGroup !== group) {
-          const otherGroupBody = otherGroup.querySelector(".faq-group-body");
-          const otherIcon = otherGroup.querySelector(".faq-group-header svg");
-          otherGroupBody?.classList.remove("open");
-          otherIcon?.classList.remove("faq-minus");
-          otherIcon?.classList.add("faq-plus");
-        }
-      });
-
-      if (icon) {
-        if (icon.classList.contains("faq-plus")) {
-          icon.classList.remove("faq-plus");
-          icon.classList.add("faq-minus");
-        } else {
-          icon.classList.remove("faq-minus");
-          icon.classList.add("faq-plus");
-        }
-      }
-    };
-
-    if (faqContainer) {
-      faqContainer.addEventListener("click", handleClick as EventListener);
-    }
-
-    return () => {
-      if (faqContainer) {
-        faqContainer.removeEventListener("click", handleClick as EventListener);
-      }
-    };
-  }, []);
-
-  // SVGs for plus and minus
-  const MinusIcon = (
-    <svg className="faq-minus text-[#e4e4e4] text-xl w-6 h-6 transition-all duration-300" fill="none" stroke="currentColor" strokeWidth={3} viewBox="0 0 24 24">
-      <line x1="5" y1="12" x2="19" y2="12" stroke="currentColor" strokeWidth={3} strokeLinecap="round" />
-    </svg>
-  );
-  const PlusIcon = (
-    <svg className="faq-plus text-[#e4e4e4] text-xl w-6 h-6 transition-all duration-300" fill="none" stroke="currentColor" strokeWidth={3} viewBox="0 0 24 24">
-      <line x1="12" y1="5" x2="12" y2="19" stroke="currentColor" strokeWidth={3} strokeLinecap="round" />
-      <line x1="5" y1="12" x2="19" y2="12" stroke="currentColor" strokeWidth={3} strokeLinecap="round" />
-    </svg>
-  );
+  const toggleFAQ = (index: number) => {
+    setOpenIndex(openIndex === index ? null : index);
+  };
 
   return (
     <>
@@ -76,128 +60,80 @@ export default function QuestionsPage() {
         <link rel="shortcut icon" href="/images/logo.png" type="image/x-icon" />
       </Head>
 
-      <section className="py-10 bg-[#141416] min-h-screen">
+      <section className="py-10 bg-[#141416] min-h-screen text-white">
         <div className="max-w-[800px] mx-auto px-4">
           <h3 className="text-3xl font-semibold text-[#e4e4e4] text-center pb-8">
             Frequently Asked Questions
           </h3>
 
-          <div className="faq-content">
-            {/* FAQ Item */}
-            <div className="faq-group border-b border-[#e4e4e4] pb-5 mb-2">
-              <div className="faq-group-header flex items-center justify-between cursor-pointer py-4 relative">
-                <h4 className="font-semibold text-lg text-[#e4e4e4]">What is a professional fraternity?</h4>
-                {MinusIcon}
-              </div>
-              <div className="faq-group-body open overflow-hidden transition-all duration-500 text-[#e4e4e4] px-4">
-                <p className="text-base font-light">
-                  A professional fraternity is a brotherhood consisting chiefly
-                  of individuals in a specific field of education, promoting
-                  professional development in addition to strengthening
-                  brotherly ties.
-                </p>
-              </div>
-            </div>
-
-            {/* FAQ Item */}
-            <div className="faq-group border-b border-[#e4e4e4] pb-5 mb-2">
-              <div className="faq-group-header flex items-center justify-between cursor-pointer py-4 relative">
-                <h4 className="font-semibold text-lg text-[#e4e4e4]">What is rush?</h4>
-                {MinusIcon}
-              </div>
-              <div className="faq-group-body overflow-hidden transition-all duration-500 text-[#e4e4e4] px-4">
-                <p className="text-base font-light">
-                  Rush is an opportunity for you to learn more about Theta Tau
-                  by meeting both our active and graduated brothers. Rush
-                  consists of multiple events that will give you a taste of what
-                  our fraternity stands for, whether you are a good fit for us,
-                  and whether we are a good fit for you. At the end of rush, we
-                  extend a limited number of interviews and bids. Those who
-                  receive bids can then decide whether or not they would like to
-                  pledge. Rushing is completely free of charge and there are no
-                  obligations.
-                </p>
-              </div>
-            </div>
-
-            {/* FAQ Item */}
-            <div className="faq-group border-b border-[#e4e4e4] pb-5 mb-2">
-              <div className="faq-group-header flex items-center justify-between cursor-pointer py-4 relative">
-                <h4 className="font-semibold text-lg text-[#e4e4e4]">Who can rush?</h4>
-                {MinusIcon}
-              </div>
-              <div className="faq-group-body overflow-hidden transition-all duration-500 text-[#e4e4e4] px-4">
-                <p className="text-base font-light">
-                  Students must be full-time students and be in good academic
-                  standing with the university (above 2.0 GPA). Students
-                  studying that are studying Masters are also encouraged to
-                  rush.
-                </p>
-              </div>
-            </div>
-
-            {/* FAQ Item */}
-            <div className="faq-group border-b border-[#e4e4e4] pb-5 mb-2">
-              <div className="faq-group-header flex items-center justify-between cursor-pointer py-4 relative">
-                <h4 className="font-semibold text-lg text-[#e4e4e4]">What is a bid?</h4>
-                {MinusIcon}
-              </div>
-              <div className="faq-group-body overflow-hidden transition-all duration-500 text-[#e4e4e4] px-4">
-                <p className="text-base font-light">
-                  A bid is a formal invitation to begin pledging, the process of
-                  becoming a brother.
-                </p>
-              </div>
-            </div>
-
-            {/* FAQ Item */}
-            <div className="faq-group border-b border-[#e4e4e4] pb-5 mb-2">
-              <div className="faq-group-header flex items-center justify-between cursor-pointer py-4 relative">
-                <h4 className="font-semibold text-lg text-[#e4e4e4]">How do you choose who receives a bid?</h4>
-                {MinusIcon}
-              </div>
-              <div className="faq-group-body overflow-hidden transition-all duration-500 text-[#e4e4e4] px-4">
-                <p className="text-base font-light">
-                  Theta Tau searches for engineers who have a strong foundation
-                  in its three pillars: Brotherhood, Professionalism, and
-                  Service. We review each applicant as a whole (grades,
-                  personality, professionalism, resume, etc.) to determine
-                  whether we are the right fit for you.
-                </p>
-              </div>
-            </div>
-
-            {/* FAQ Item */}
-            <div className="faq-group border-b border-[#e4e4e4] pb-5 mb-2">
-              <div className="faq-group-header flex items-center justify-between cursor-pointer py-4 relative">
-                <h4 className="font-semibold text-lg text-[#e4e4e4]">Do you only accept engineering majors?</h4>
-                {MinusIcon}
-              </div>
-              <div className="faq-group-body overflow-hidden transition-all duration-500 text-[#e4e4e4] px-4">
-                <p className="text-base font-light">
-                  No, we have accepted students of related majors in the past
-                  such as Computer Science, Applied Math, Packaging, and
-                  Cognitive Science.
-                </p>
-              </div>
-            </div>
-
-            {/* FAQ Item */}
-            <div className="faq-group border-b border-[#e4e4e4] pb-5 mb-2">
-              <div className="faq-group-header flex items-center justify-between cursor-pointer py-4 relative">
-                <h4 className="font-semibold text-lg text-[#e4e4e4]">What is pledging?</h4>
-                {MinusIcon}
-              </div>
-              <div className="faq-group-body overflow-hidden transition-all duration-500 text-[#e4e4e4] px-4">
-                <p className="text-base font-light">
-                  Pledging is the process by which individuals integrate
-                  themselves into the brotherhood. It is led by pledge
-                  instructors, who assist the pledges in developing their
-                  professional skills, aiding the community, and most important
-                  of all, getting to know their future brothers.
-                </p>
-              </div>
-            </div>
+          <div className="space-y-4">
+            {faqData.map((faq, index) => {
+              const isOpen = openIndex === index;
+              return (
+                <div
+                  key={index}
+                  className="border-b border-[#e4e4e4] pb-4 transition-all"
+                >
+                  <button
+                    onClick={() => toggleFAQ(index)}
+                    className="w-full flex justify-between items-center py-4 text-left focus:outline-none cursor-pointer"
+                  >
+                    <h4 className="font-semibold text-lg text-[#e4e4e4]">
+                      {faq.question}
+                    </h4>
+                    <span className="text-[#e4e4e4] w-6 h-6 flex items-center justify-center transition-transform duration-300">
+                      {isOpen ? (
+                        <svg
+                          className="w-6 h-6"
+                          fill="none"
+                          stroke="currentColor"
+                          strokeWidth={3}
+                          viewBox="0 0 24 24"
+                        >
+                          <line
+                            x1="5"
+                            y1="12"
+                            x2="19"
+                            y2="12"
+                            strokeLinecap="round"
+                          />
+                        </svg>
+                      ) : (
+                        <svg
+                          className="w-6 h-6"
+                          fill="none"
+                          stroke="currentColor"
+                          strokeWidth={3}
+                          viewBox="0 0 24 24"
+                        >
+                          <line
+                            x1="12"
+                            y1="5"
+                            x2="12"
+                            y2="19"
+                            strokeLinecap="round"
+                          />
+                          <line
+                            x1="5"
+                            y1="12"
+                            x2="19"
+                            y2="12"
+                            strokeLinecap="round"
+                          />
+                        </svg>
+                      )}
+                    </span>
+                  </button>
+                  <div
+                    className={`overflow-hidden transition-all duration-500 px-2 text-[#e4e4e4] ${
+                      isOpen ? 'max-h-[500px] opacity-100 pt-2' : 'max-h-0 opacity-0'
+                    }`}
+                  >
+                    <p className="text-base font-light">{faq.answer}</p>
+                  </div>
+                </div>
+              );
+            })}
           </div>
         </div>
       </section>
