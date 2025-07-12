@@ -36,6 +36,7 @@ export default function RushPage() {
                             width={700}
                             height={500}
                             className="w-1/2 max-w-[700px] h-auto rounded-lg object-cover"
+                            priority
                         />
                     </div>
                 </div>
