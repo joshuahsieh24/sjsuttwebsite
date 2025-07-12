@@ -44,18 +44,23 @@ export default function About() {
             <section className="min-h-[300px] flex items-center bg-[#141416] text-white py-10">
                 <div className="max-w-[1100px] mx-auto px-4 w-full">
                     <div className="flex flex-col md:flex-row items-center justify-between gap-8 pt-8">
-                        <div className="flex-1 max-w-[50%] text-left">
-                            <div className="grid grid-rows-[40px_auto]">
-                                <h2 className="text-[#fecb33] font-semibold mb-2 text-2xl">WHO ARE WE?</h2>
-                                <p className="text-[#787e91] text-base">
-                                Theta Tau is a co-ed professional engineering fraternity at
-                                SJSU, built on fostering strong bonds among members. We strive
-                                to support professional growth while making a positive impact
-                                on our community.
-                                </p>
-                            </div>
+                    
+                    <div className="flex-1 w-full md:max-w-[50%] text-left">
+                        <div className="grid grid-rows-[40px_auto]">
+                        <h2 className="text-[#fecb33] font-semibold mb-2 text-2xl">WHO ARE WE?</h2>
+                        <p className="text-[#787e91] text-base">
+                            Theta Tau is a co-ed professional engineering fraternity at
+                            SJSU, built on fostering strong bonds among members. We strive
+                            to support professional growth while making a positive impact
+                            on our community.
+                        </p>
                         </div>
+                    </div>
+
+                    <div className="flex-1 w-full md:max-w-[50%]">
                         <Carousel images={carouselImages} />
+                    </div>
+
                     </div>
                 </div>
             </section>
@@ -185,7 +190,7 @@ export default function About() {
         <section className="py-16 bg-[#18181a]">
             <div className="max-w-6xl mx-auto px-4">
                 <div className="flex flex-col md:flex-row items-center justify-between gap-8 pt-8">
-                    <div className="flex-1 max-w-[50%] text-left">
+                    <div className="flex-1 w-full md:max-w-[50%] text-left">
                         <div className="grid grid-rows-[40px_auto]">
                             <h2 className="text-[#fecb33] font-semibold mb-2 text-2xl">
                             WHERE WE&rsquo;VE WORKED

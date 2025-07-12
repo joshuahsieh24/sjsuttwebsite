@@ -14,40 +14,39 @@ const Carousel: React.FC<CarouselProps> = ({ images }) => {
   const next = () => setIndex((index + 1) % images.length);
 
   return (
-    <div className="relative w-full max-w-xl mx-auto overflow-hidden rounded-2xl shadow-lg">
-      <div className="relative h-64 sm:h-96 aspect-[3/2]">
+    <div className="relative w-full max-w-2xl mx-auto overflow-hidden rounded-2xl shadow-lg">
+      {/* image and arrows in the same container */}
+      <div className="relative aspect-[3/2] sm:h-96 w-full">
         <AnimatePresence mode="wait">
           <motion.img
             key={images[index]}
             src={images[index]}
             alt={`Slide ${index}`}
-            className="object-cover w-full h-full"
+            className="w-full h-full object-contain sm:object-cover"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.5 }}
           />
         </AnimatePresence>
-      </div>
 
-      <div
-        onClick={prev}
-        className="absolute left-0 top-0 bottom-0 flex items-center px-4 cursor-pointer group"
-        aria-label="Previous Slide"
-      >
-        <div className="text-white text-3xl transition-transform duration-200 group-hover:scale-125 group-hover:text-gray-200 select-none">
+        {/* Left Arrow */}
+        <button
+          onClick={prev}
+          className="absolute left-2 top-1/2 -translate-y-1/2 bg-black/40 hover:bg-black/60 text-white text-3xl rounded-full p-2 transition"
+          aria-label="Previous Slide"
+        >
           ←
-        </div>
-      </div>
+        </button>
 
-      <div
-        onClick={next}
-        className="absolute right-0 top-0 bottom-0 flex items-center px-4 cursor-pointer group"
-        aria-label="Next Slide"
-      >
-        <div className="text-white text-3xl transition-transform duration-200 group-hover:scale-125 group-hover:text-gray-200 select-none">
+        {/* Right Arrow */}
+        <button
+          onClick={next}
+          className="absolute right-2 top-1/2 -translate-y-1/2 bg-black/40 hover:bg-black/60 text-white text-3xl rounded-full p-2 transition"
+          aria-label="Next Slide"
+        >
           →
-        </div>
+        </button>
       </div>
     </div>
   );
