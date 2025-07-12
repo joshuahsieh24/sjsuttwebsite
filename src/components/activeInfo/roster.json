@@ -195,6 +195,18 @@
             "class": "Iota"
         },
         {
+            "name": "Lac-Phong Nguyen",
+            "image": "./headshots/lac.jpg",
+            "major": "Software Engineering",
+            "class": "Iota"
+        },
+        {
+            "name": "Ethan Nguyen",
+            "image": "./headshots/lac.jpg",
+            "major": "Engineering Technology",
+            "class": "Iota"
+        },
+        {
             "name": "Janelle Bautista",
             "image": "./headshots/janelle.jpg",
             "major": "Packaging Science",
