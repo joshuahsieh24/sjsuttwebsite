@@ -16,14 +16,25 @@ export default function About() {
             <meta name="viewport" content="width=device-width, initial-scale=1.0" />
             <link rel="shortcut icon" href="/images/logo.png" type="image/x-icon" />
         </Head>
+            <section className="relative flex items-center justify-center min-h-[60vh] md:min-h-[80vh] text-white font-sans overflow-hidden">
+                <div
+                    className="absolute inset-0 -z-10 bg-cover bg-center"
+                    style={{ backgroundImage: "url('/images/mu-class.jpg')" }}
+                    aria-hidden="true"
+                />
+                <div className="absolute inset-0 -z-10 bg-black/60" aria-hidden="true" />
 
-        <section className="min-h-[120px] flex items-center bg-[#18181a] text-white py-10">
-            <div className="max-w-[1100px] mx-auto px-4 w-full">
-                <h1 className="text-3xl md:text-5xl font-semibold flex justify-center items-center text-center mb-5">
-                    The Premier Professional Engineering Fraternity
-                </h1>
-            </div>
-        </section>
+                <div className="text-center px-6">
+                    <h1 className="text-[clamp(2.5rem,6vw,5rem)] font-bold leading-[1.1] tracking-tight">
+                    The Premier Professional
+                    <br className="hidden md:block" />
+                    <span className="text-[#fecb33]"> Engineering Fraternity </span>
+                    </h1>
+                    <p className="mt-4 text-lg md:text-xl text-[#e4e4e4] font-light max-w-2xl mx-auto">
+                    A community of driven engineers at San Jose State, united through brotherhood, service, and professionalism.
+                    </p>
+                </div>
+            </section>
 
             <section className="min-h-[300px] flex items-center bg-[#141416] text-white py-10">
                 <div className="max-w-[1100px] mx-auto px-4 w-full">
