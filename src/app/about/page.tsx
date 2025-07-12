@@ -2,6 +2,7 @@ import Head from "next/head";
 import Carousel from "@/components/Carousel";
 import ValueCard from "@/components/ValueCard";
 import CompanyLogos from "@/components/CompanyLogoDisplay";
+import Image from "next/image";
 
 export default function About() {
     const carouselImages = [
@@ -17,21 +18,25 @@ export default function About() {
             <link rel="shortcut icon" href="/images/logo.png" type="image/x-icon" />
         </Head>
             <section className="relative flex items-center justify-center min-h-[60vh] md:min-h-[80vh] text-white font-sans overflow-hidden">
-                <div
-                    className="absolute inset-0 -z-10 bg-cover bg-center"
-                    style={{ backgroundImage: "url('/images/mu-class.jpg')" }}
-                    aria-hidden="true"
-                />
+                <div className="absolute inset-0 -z-10">
+                    <Image
+                        src="/images/mu-class.jpg"
+                        alt=""
+                        priority
+                        fill
+                        style={{ objectFit: 'cover', objectPosition: 'center' }}
+                        aria-hidden="true"
+                    />
+                </div>
                 <div className="absolute inset-0 -z-10 bg-black/60" aria-hidden="true" />
-
                 <div className="text-center px-6">
                     <h1 className="text-[clamp(2.5rem,6vw,5rem)] font-bold leading-[1.1] tracking-tight">
-                    The Premier Professional
-                    <br className="hidden md:block" />
-                    <span className="text-[#fecb33]"> Engineering Fraternity </span>
+                        The Premier Professional
+                        <br className="hidden md:block" />
+                        <span className="text-[#fecb33]"> Engineering Fraternity </span>
                     </h1>
                     <p className="mt-4 text-lg md:text-xl text-[#e4e4e4] font-light max-w-2xl mx-auto">
-                    A community of driven engineers at San Jose State, united through brotherhood, service, and professionalism.
+                        A community of driven engineers at San Jose State, united through brotherhood, service, and professionalism.
                     </p>
                 </div>
             </section>
