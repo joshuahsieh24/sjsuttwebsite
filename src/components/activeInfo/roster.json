@@ -24,14 +24,14 @@
         {
             "name": "Drew Tom",
             "role": "Treasurer",
-            "image": "/headshots/drew.jpg",
+            "image": "/headshots/drew.JPG",
             "major": "Computer Network Systems Management",
             "class": "Iota"
         },
         {
             "name": "Manan Upadhyay",
             "role": "Corresponding Secretary",
-            "image": "./headshots/manan.jpg",
+            "image": "./headshots/manan.JPG",
             "major": "Industrial & Systems Engineering",
             "class": "Iota"
         },

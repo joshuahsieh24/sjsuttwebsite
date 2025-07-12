@@ -7,7 +7,7 @@ import Image from "next/image";
 export default function About() {
     const carouselImages = [
         './images/retreat.jpg',
-        './images/s25reveal.jpg',
+        './images/s25reveal.JPG',
     ]
 
     return (
