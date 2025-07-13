@@ -62,9 +62,9 @@ export default function QuestionsPage() {
 
       <section className="py-10 bg-[#141416] min-h-screen text-white">
         <div className="max-w-[800px] mx-auto px-4">
-          <h3 className="text-3xl font-semibold text-[#e4e4e4] text-center pb-8">
+          <h1 className="text-3xl font-bold text-[#e4e4e4] text-center pb-8">
             Frequently Asked Questions
-          </h3>
+          </h1>
 
           <div className="space-y-4">
             {faqData.map((faq, index) => {

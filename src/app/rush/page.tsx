@@ -9,7 +9,7 @@ export default function RushPage() {
         <>
             <section className="min-h-[120px] flex items-center bg-[#18181a] text-white py-10">
                 <div className="max-w-[1100px] mx-auto px-4 w-full">
-                    <h1 className="text-3xl md:text-5xl font-semibold flex justify-center items-center text-center mb-5">
+                    <h1 className="text-3xl md:text-5xl font-bold flex justify-center items-center text-center mb-5">
                         Recruitment
                     </h1>
                 </div>
