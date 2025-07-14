@@ -70,330 +70,399 @@ const CompanyGlobe = () => {
   useEffect(() => {
     if (!mountRef.current) return;
 
-    // Scene setup
-    const scene = new THREE.Scene();
-    sceneRef.current = scene;
+    let cleanupFunction = null;
+    let timeoutId = null;
 
-    // Camera setup
-    const camera = new THREE.PerspectiveCamera(
-      50,
-      mountRef.current.clientWidth / mountRef.current.clientHeight,
-      0.1,
-      1000
-    );
-    camera.position.z = 18;
-
-    // Renderer setup with transparent background
-    const renderer = new THREE.WebGLRenderer({ 
-      antialias: true,
-      alpha: true 
-    });
-    renderer.setSize(mountRef.current.clientWidth, mountRef.current.clientHeight);
-    renderer.setPixelRatio(window.devicePixelRatio);
-    renderer.setClearColor(0x000000, 0);
-    mountRef.current.appendChild(renderer.domElement);
-    rendererRef.current = renderer;
-
-    // Lighting
-    const ambientLight = new THREE.AmbientLight(0xffffff, 1.0);
-    scene.add(ambientLight);
-    const directionalLight = new THREE.DirectionalLight(0xffffff, 0.8);
-    directionalLight.position.set(5, 5, 5);
-    scene.add(directionalLight);
-
-    // Create globe with very subtle wireframe
-    const globeGeometry = new THREE.SphereGeometry(6, 32, 32);
-    const globeMaterial = new THREE.MeshPhongMaterial({
-      color: 0x2a2a2e,
-      transparent: true,
-      opacity: 0.05,
-      wireframe: true,
-    });
-    const globe = new THREE.Mesh(globeGeometry, globeMaterial);
-    scene.add(globe);
-    globeRef.current = globe;
-
-    // Create logo sprites
-    const logoGroup = new THREE.Group();
-    const loader = new THREE.TextureLoader();
-    loader.setCrossOrigin('anonymous'); // Enable CORS for better texture loading
-    let loadedCount = 0;
-    
-    // Calculate positions for logos on sphere surface with tighter spacing
-    const logoPositions = [];
-    const phi = Math.PI * (3 - Math.sqrt(5)); // golden angle
-    
-    logos.forEach((logo, i) => {
-      const y = 1 - (i / (logos.length - 1)) * 2;
-      const radius = Math.sqrt(1 - y * y);
-      const theta = phi * i;
-      
-      const x = Math.cos(theta) * radius;
-      const z = Math.sin(theta) * radius;
-      
-      logoPositions.push({ x: x * 6.3, y: y * 6.3, z: z * 6.3 });
-    });
-
-    // Create logo planes without white backgrounds
-    logos.forEach((logo, index) => {
-      const position = logoPositions[index];
-      
-      // Create logo plane only (no background)
-      const logoGeometry = new THREE.PlaneGeometry(1.0, 1.0);
-      const logoMaterial = new THREE.MeshBasicMaterial({
-        transparent: true,
-        side: THREE.DoubleSide,
-        opacity: 0,
-        alphaTest: 0.1 // This helps with transparency
-      });
-      const logoPlane = new THREE.Mesh(logoGeometry, logoMaterial);
-      
-      // Position logo
-      logoPlane.position.set(position.x, position.y, position.z);
-      logoPlane.lookAt(0, 0, 0);
-      
-      // Fix horizontal inversion by rotating 180 degrees around Y axis
-      logoPlane.rotateY(Math.PI);
-      
-      // Store reference for hover effects
-      logoPlane.userData = { index, name: logo.alt };
-      
-      // Load texture with proper transparency
-      loader.load(
-        logo.src,
-        (texture) => {
-          // Fix orientation - keep flipY as true (default) for correct orientation
-          texture.colorSpace = THREE.SRGBColorSpace;
-          
-          // Improve texture quality
-          texture.minFilter = THREE.LinearMipmapLinearFilter;
-          texture.magFilter = THREE.LinearFilter;
-          texture.anisotropy = renderer.capabilities.getMaxAnisotropy();
-          
-          logoMaterial.map = texture;
-          logoMaterial.opacity = 1;
-          logoMaterial.needsUpdate = true;
-          
-          loadedCount++;
-          if (loadedCount === logos.length) {
-            setIsLoading(false);
-          }
-        },
-        undefined,
-        (error) => {
-          console.error('Error loading texture:', logo.src, error);
-          // Fallback with minimal styling
-          logoMaterial.color = new THREE.Color(0x787e91);
-          logoMaterial.opacity = 0.5;
-          
-          loadedCount++;
-          if (loadedCount === logos.length) {
-            setIsLoading(false);
-          }
-        }
-      );
-      
-      logoGroup.add(logoPlane);
-    });
-    
-    globe.add(logoGroup);
-
-    // Mouse interaction
-    const raycaster = new THREE.Raycaster();
-    const mouse = new THREE.Vector2();
-
-    const handleMouseMove = (event) => {
-      if (!mountRef.current) return;
-      const rect = mountRef.current.getBoundingClientRect();
-      mouse.x = ((event.clientX - rect.left) / rect.width) * 2 - 1;
-      mouse.y = -((event.clientY - rect.top) / rect.height) * 2 + 1;
-
-      raycaster.setFromCamera(mouse, camera);
-      const intersects = raycaster.intersectObjects(logoGroup.children);
-      
-      // Reset all scales
-      logoGroup.children.forEach(child => {
-        child.scale.set(1, 1, 1);
-      });
-      
-      if (intersects.length > 0) {
-        const hoveredObject = intersects[0].object;
-        if (hoveredObject.userData.name) {
-          setHoveredLogo(hoveredObject.userData.name);
-          mountRef.current.style.cursor = 'pointer';
-          
-          // Scale up hovered logo
-          hoveredObject.scale.set(1.2, 1.2, 1.2);
-        }
+    // Wait for container to have dimensions
+    const checkDimensions = () => {
+      if (mountRef.current && mountRef.current.clientWidth > 0 && mountRef.current.clientHeight > 0) {
+        // Use requestAnimationFrame to ensure browser has painted
+        requestAnimationFrame(() => {
+          cleanupFunction = initializeScene();
+        });
       } else {
-        setHoveredLogo(null);
-        if (mountRef.current) mountRef.current.style.cursor = 'default';
+        // Retry after a short delay
+        timeoutId = setTimeout(checkDimensions, 100);
       }
     };
 
-    const handleClick = (event) => {
-      if (!mountRef.current || isDragging.current) return;
-      const rect = mountRef.current.getBoundingClientRect();
-      mouse.x = ((event.clientX - rect.left) / rect.width) * 2 - 1;
-      mouse.y = -((event.clientY - rect.top) / rect.height) * 2 + 1;
+    const initializeScene = () => {
+      // Store mount element reference for cleanup
+      const mountElement = mountRef.current;
+      if (!mountElement) return null;
 
-      raycaster.setFromCamera(mouse, camera);
-      const intersects = raycaster.intersectObjects(logoGroup.children);
-      
-      if (intersects.length > 0) {
-        const clickedObject = intersects[0].object;
-        const logoData = logos[clickedObject.userData.index];
-        if (logoData.url) {
-          window.open(logoData.url, '_blank');
-        }
+      // Scene setup
+      const scene = new THREE.Scene();
+      sceneRef.current = scene;
+
+      // Camera setup
+      const camera = new THREE.PerspectiveCamera(
+        50,
+        mountElement.clientWidth / mountElement.clientHeight,
+        0.1,
+        1000
+      );
+      camera.position.z = 18;
+
+      // Check if renderer already exists in the container
+      if (mountElement.children.length > 0) {
+        mountElement.innerHTML = '';
       }
-    };
 
-    const handleMouseDown = (event) => {
-      isDragging.current = true;
-      previousMousePosition.current = {
-        x: event.clientX,
-        y: event.clientY
-      };
-    };
+      // Renderer setup with transparent background
+      const renderer = new THREE.WebGLRenderer({ 
+        antialias: true,
+        alpha: true 
+      });
+      renderer.setSize(mountElement.clientWidth, mountElement.clientHeight);
+      renderer.setPixelRatio(window.devicePixelRatio);
+      renderer.setClearColor(0x000000, 0);
+      mountElement.appendChild(renderer.domElement);
+      rendererRef.current = renderer;
 
-    const handleMouseUp = () => {
-      isDragging.current = false;
-    };
+      // Lighting
+      const ambientLight = new THREE.AmbientLight(0xffffff, 1.0);
+      scene.add(ambientLight);
+      const directionalLight = new THREE.DirectionalLight(0xffffff, 0.8);
+      directionalLight.position.set(5, 5, 5);
+      scene.add(directionalLight);
 
-    const handleDragMove = (event) => {
-      if (!isDragging.current || !globeRef.current) return;
+      // Create globe with very subtle wireframe
+      const globeGeometry = new THREE.SphereGeometry(6, 32, 32);
+      const globeMaterial = new THREE.MeshPhongMaterial({
+        color: 0x2a2a2e,
+        transparent: true,
+        opacity: 0.05,
+        wireframe: true,
+      });
+      const globe = new THREE.Mesh(globeGeometry, globeMaterial);
+      scene.add(globe);
+      globeRef.current = globe;
 
-      const deltaMove = {
-        x: event.clientX - previousMousePosition.current.x,
-        y: event.clientY - previousMousePosition.current.y
-      };
-
-      // Update rotation speed based on drag
-      rotationSpeed.current = {
-        x: deltaMove.x * 0.005,
-        y: deltaMove.y * 0.005
-      };
-
-      // Apply rotation to globe
-      globeRef.current.rotation.y += deltaMove.x * 0.005;
-      globeRef.current.rotation.x += deltaMove.y * 0.005;
-
-      // Clamp X rotation to prevent flipping
-      globeRef.current.rotation.x = Math.max(-Math.PI / 2, Math.min(Math.PI / 2, globeRef.current.rotation.x));
-
-      previousMousePosition.current = {
-        x: event.clientX,
-        y: event.clientY
-      };
-    };
-
-    // Touch events for mobile
-    const handleTouchStart = (event) => {
-      isDragging.current = true;
-      const touch = event.touches[0];
-      previousMousePosition.current = {
-        x: touch.clientX,
-        y: touch.clientY
-      };
-    };
-
-    const handleTouchMove = (event) => {
-      if (!isDragging.current || !globeRef.current) return;
-      event.preventDefault();
+      // Create logo sprites
+      const logoGroup = new THREE.Group();
+      const loader = new THREE.TextureLoader();
+      loader.setCrossOrigin('anonymous'); // Enable CORS for better texture loading
+      let loadedCount = 0;
       
-      const touch = event.touches[0];
-      const deltaMove = {
-        x: touch.clientX - previousMousePosition.current.x,
-        y: touch.clientY - previousMousePosition.current.y
-      };
-
-      rotationSpeed.current = {
-        x: deltaMove.x * 0.005,
-        y: deltaMove.y * 0.005
-      };
-
-      globeRef.current.rotation.y += deltaMove.x * 0.005;
-      globeRef.current.rotation.x += deltaMove.y * 0.005;
-      globeRef.current.rotation.x = Math.max(-Math.PI / 2, Math.min(Math.PI / 2, globeRef.current.rotation.x));
-
-      previousMousePosition.current = {
-        x: touch.clientX,
-        y: touch.clientY
-      };
-    };
-
-    const handleTouchEnd = () => {
-      isDragging.current = false;
-    };
-
-    // Add event listeners
-    mountRef.current.addEventListener('click', handleClick);
-    mountRef.current.addEventListener('mousemove', handleMouseMove);
-    mountRef.current.addEventListener('mousedown', handleMouseDown);
-    mountRef.current.addEventListener('mouseup', handleMouseUp);
-    mountRef.current.addEventListener('mouseleave', handleMouseUp);
-    mountRef.current.addEventListener('mousemove', handleDragMove);
-    mountRef.current.addEventListener('touchstart', handleTouchStart);
-    mountRef.current.addEventListener('touchmove', handleTouchMove);
-    mountRef.current.addEventListener('touchend', handleTouchEnd);
-
-    // Animation
-    const animate = () => {
-      frameRef.current = requestAnimationFrame(animate);
+      // Calculate positions for logos on sphere surface with tighter spacing
+      const logoPositions = [];
+      const phi = Math.PI * (3 - Math.sqrt(5)); // golden angle
       
-      if (globeRef.current) {
-        // Apply rotation with momentum
-        if (!isDragging.current) {
-          globeRef.current.rotation.y += rotationSpeed.current.x;
-          globeRef.current.rotation.x += rotationSpeed.current.y * 0.5;
-          
-          // Gradually slow down rotation (friction)
-          rotationSpeed.current.x *= 0.95;
-          rotationSpeed.current.y *= 0.95;
-          
-          // Keep a minimum rotation on Y axis
-          if (Math.abs(rotationSpeed.current.x) < 0.003) {
-            rotationSpeed.current.x = 0.003;
+      logos.forEach((logo, i) => {
+        const y = 1 - (i / (logos.length - 1)) * 2;
+        const radius = Math.sqrt(1 - y * y);
+        const theta = phi * i;
+        
+        const x = Math.cos(theta) * radius;
+        const z = Math.sin(theta) * radius;
+        
+        logoPositions.push({ x: x * 6.3, y: y * 6.3, z: z * 6.3 });
+      });
+
+      // Create logo planes without white backgrounds
+      logos.forEach((logo, index) => {
+        const position = logoPositions[index];
+        
+        // Create logo plane only (no background)
+        const logoGeometry = new THREE.PlaneGeometry(1.0, 1.0);
+        const logoMaterial = new THREE.MeshBasicMaterial({
+          transparent: true,
+          side: THREE.DoubleSide,
+          opacity: 0,
+          alphaTest: 0.1 // This helps with transparency
+        });
+        const logoPlane = new THREE.Mesh(logoGeometry, logoMaterial);
+        
+        // Position logo
+        logoPlane.position.set(position.x, position.y, position.z);
+        logoPlane.lookAt(0, 0, 0);
+        
+        // Fix horizontal inversion by rotating 180 degrees around Y axis
+        logoPlane.rotateY(Math.PI);
+        
+        // Store reference for hover effects
+        logoPlane.userData = { index, name: logo.alt };
+        
+        // Load texture with proper transparency
+        loader.load(
+          logo.src,
+          (texture) => {
+            // Fix orientation - keep flipY as true (default) for correct orientation
+            texture.colorSpace = THREE.SRGBColorSpace;
+            
+            // Improve texture quality
+            texture.minFilter = THREE.LinearMipmapLinearFilter;
+            texture.magFilter = THREE.LinearFilter;
+            texture.anisotropy = renderer.capabilities.getMaxAnisotropy();
+            
+            logoMaterial.map = texture;
+            logoMaterial.opacity = 1;
+            logoMaterial.needsUpdate = true;
+            
+            loadedCount++;
+            if (loadedCount === logos.length) {
+              setIsLoading(false);
+            }
+          },
+          undefined,
+          (error) => {
+            console.error('Error loading texture:', logo.src, error);
+            // Fallback with minimal styling
+            logoMaterial.color = new THREE.Color(0x787e91);
+            logoMaterial.opacity = 0.5;
+            
+            loadedCount++;
+            if (loadedCount === logos.length) {
+              setIsLoading(false);
+            }
           }
+        );
+        
+        logoGroup.add(logoPlane);
+      });
+      
+      globe.add(logoGroup);
+
+      // Mouse interaction
+      const raycaster = new THREE.Raycaster();
+      const mouse = new THREE.Vector2();
+
+      const handleMouseMove = (event) => {
+        if (!mountElement) return;
+        const rect = mountElement.getBoundingClientRect();
+        mouse.x = ((event.clientX - rect.left) / rect.width) * 2 - 1;
+        mouse.y = -((event.clientY - rect.top) / rect.height) * 2 + 1;
+
+        raycaster.setFromCamera(mouse, camera);
+        const intersects = raycaster.intersectObjects(logoGroup.children);
+        
+        // Reset all scales
+        logoGroup.children.forEach(child => {
+          child.scale.set(1, 1, 1);
+        });
+        
+        if (intersects.length > 0) {
+          const hoveredObject = intersects[0].object;
+          if (hoveredObject.userData.name) {
+            setHoveredLogo(hoveredObject.userData.name);
+            mountElement.style.cursor = 'pointer';
+            
+            // Scale up hovered logo
+            hoveredObject.scale.set(1.2, 1.2, 1.2);
+          }
+        } else {
+          setHoveredLogo(null);
+          if (mountElement) mountElement.style.cursor = 'default';
+        }
+      };
+
+      const handleClick = (event) => {
+        if (!mountElement || isDragging.current) return;
+        const rect = mountElement.getBoundingClientRect();
+        mouse.x = ((event.clientX - rect.left) / rect.width) * 2 - 1;
+        mouse.y = -((event.clientY - rect.top) / rect.height) * 2 + 1;
+
+        raycaster.setFromCamera(mouse, camera);
+        const intersects = raycaster.intersectObjects(logoGroup.children);
+        
+        if (intersects.length > 0) {
+          const clickedObject = intersects[0].object;
+          const logoData = logos[clickedObject.userData.index];
+          if (logoData.url) {
+            window.open(logoData.url, '_blank');
+          }
+        }
+      };
+
+      const handleMouseDown = (event) => {
+        isDragging.current = true;
+        previousMousePosition.current = {
+          x: event.clientX,
+          y: event.clientY
+        };
+      };
+
+      const handleMouseUp = () => {
+        isDragging.current = false;
+      };
+
+      const handleDragMove = (event) => {
+        if (!isDragging.current || !globeRef.current) return;
+
+        const deltaMove = {
+          x: event.clientX - previousMousePosition.current.x,
+          y: event.clientY - previousMousePosition.current.y
+        };
+
+        // Update rotation speed based on drag
+        rotationSpeed.current = {
+          x: deltaMove.x * 0.005,
+          y: deltaMove.y * 0.005
+        };
+
+        // Apply rotation to globe
+        globeRef.current.rotation.y += deltaMove.x * 0.005;
+        globeRef.current.rotation.x += deltaMove.y * 0.005;
+
+        // Clamp X rotation to prevent flipping
+        globeRef.current.rotation.x = Math.max(-Math.PI / 2, Math.min(Math.PI / 2, globeRef.current.rotation.x));
+
+        previousMousePosition.current = {
+          x: event.clientX,
+          y: event.clientY
+        };
+      };
+
+      // Touch events for mobile
+      const handleTouchStart = (event) => {
+        isDragging.current = true;
+        const touch = event.touches[0];
+        previousMousePosition.current = {
+          x: touch.clientX,
+          y: touch.clientY
+        };
+      };
+
+      const handleTouchMove = (event) => {
+        if (!isDragging.current || !globeRef.current) return;
+        event.preventDefault();
+        
+        const touch = event.touches[0];
+        const deltaMove = {
+          x: touch.clientX - previousMousePosition.current.x,
+          y: touch.clientY - previousMousePosition.current.y
+        };
+
+        rotationSpeed.current = {
+          x: deltaMove.x * 0.005,
+          y: deltaMove.y * 0.005
+        };
+
+        globeRef.current.rotation.y += deltaMove.x * 0.005;
+        globeRef.current.rotation.x += deltaMove.y * 0.005;
+        globeRef.current.rotation.x = Math.max(-Math.PI / 2, Math.min(Math.PI / 2, globeRef.current.rotation.x));
+
+        previousMousePosition.current = {
+          x: touch.clientX,
+          y: touch.clientY
+        };
+      };
+
+      const handleTouchEnd = () => {
+        isDragging.current = false;
+      };
+
+      // Add event listeners
+      mountElement.addEventListener('click', handleClick);
+      mountElement.addEventListener('mousemove', handleMouseMove);
+      mountElement.addEventListener('mousedown', handleMouseDown);
+      mountElement.addEventListener('mouseup', handleMouseUp);
+      mountElement.addEventListener('mouseleave', handleMouseUp);
+      mountElement.addEventListener('mousemove', handleDragMove);
+      mountElement.addEventListener('touchstart', handleTouchStart);
+      mountElement.addEventListener('touchmove', handleTouchMove);
+      mountElement.addEventListener('touchend', handleTouchEnd);
+
+      // Animation
+      const animate = () => {
+        frameRef.current = requestAnimationFrame(animate);
+        
+        if (globeRef.current) {
+          // Apply rotation with momentum
+          if (!isDragging.current) {
+            globeRef.current.rotation.y += rotationSpeed.current.x;
+            globeRef.current.rotation.x += rotationSpeed.current.y * 0.5;
+            
+            // Gradually slow down rotation (friction)
+            rotationSpeed.current.x *= 0.95;
+            rotationSpeed.current.y *= 0.95;
+            
+            // Keep a minimum rotation on Y axis
+            if (Math.abs(rotationSpeed.current.x) < 0.003) {
+              rotationSpeed.current.x = 0.003;
+            }
+          }
+          
+          // Subtle floating animation
+          globeRef.current.position.y = Math.sin(Date.now() * 0.001) * 0.05;
         }
         
-        // Subtle floating animation
-        globeRef.current.position.y = Math.sin(Date.now() * 0.001) * 0.05;
-      }
-      
-      renderer.render(scene, camera);
-    };
-    animate();
+        renderer.render(scene, camera);
+      };
+      animate();
 
-    // Handle resize
-    const handleResize = () => {
-      if (!mountRef.current) return;
-      camera.aspect = mountRef.current.clientWidth / mountRef.current.clientHeight;
-      camera.updateProjectionMatrix();
-      renderer.setSize(mountRef.current.clientWidth, mountRef.current.clientHeight);
-    };
-    window.addEventListener('resize', handleResize);
+      // Handle resize
+      const handleResize = () => {
+        if (!mountElement) return;
+        camera.aspect = mountElement.clientWidth / mountElement.clientHeight;
+        camera.updateProjectionMatrix();
+        renderer.setSize(mountElement.clientWidth, mountElement.clientHeight);
+      };
+      window.addEventListener('resize', handleResize);
 
-    // Cleanup
+      // Add ResizeObserver for container size changes
+      const resizeObserver = new ResizeObserver(() => {
+        handleResize();
+      });
+      resizeObserver.observe(mountElement);
+
+      // Cleanup
+      return () => {
+        if (frameRef.current) {
+          cancelAnimationFrame(frameRef.current);
+        }
+        if (mountElement && renderer.domElement && mountElement.contains(renderer.domElement)) {
+          mountElement.removeEventListener('mousemove', handleMouseMove);
+          mountElement.removeEventListener('click', handleClick);
+          mountElement.removeEventListener('mousedown', handleMouseDown);
+          mountElement.removeEventListener('mouseup', handleMouseUp);
+          mountElement.removeEventListener('mouseleave', handleMouseUp);
+          mountElement.removeEventListener('mousemove', handleDragMove);
+          mountElement.removeEventListener('touchstart', handleTouchStart);
+          mountElement.removeEventListener('touchmove', handleTouchMove);
+          mountElement.removeEventListener('touchend', handleTouchEnd);
+          mountElement.removeChild(renderer.domElement);
+        }
+        
+        // Clear the scene
+        if (scene) {
+          scene.traverse((object) => {
+            if (object.geometry) object.geometry.dispose();
+            if (object.material) {
+              if (Array.isArray(object.material)) {
+                object.material.forEach(material => material.dispose());
+              } else {
+                object.material.dispose();
+              }
+            }
+          });
+          scene.clear();
+        }
+        
+        renderer.dispose();
+        window.removeEventListener('resize', handleResize);
+        resizeObserver.disconnect();
+      };
+    };
+
+    // Start initialization
+    checkDimensions();
+
+    // Cleanup function
     return () => {
+      if (timeoutId) {
+        clearTimeout(timeoutId);
+      }
+      if (cleanupFunction) {
+        cleanupFunction();
+      }
       if (frameRef.current) {
         cancelAnimationFrame(frameRef.current);
       }
-      if (mountRef.current && renderer.domElement) {
-        mountRef.current.removeEventListener('mousemove', handleMouseMove);
-        mountRef.current.removeEventListener('click', handleClick);
-        mountRef.current.removeEventListener('mousedown', handleMouseDown);
-        mountRef.current.removeEventListener('mouseup', handleMouseUp);
-        mountRef.current.removeEventListener('mouseleave', handleMouseUp);
-        mountRef.current.removeEventListener('mousemove', handleDragMove);
-        mountRef.current.removeEventListener('touchstart', handleTouchStart);
-        mountRef.current.removeEventListener('touchmove', handleTouchMove);
-        mountRef.current.removeEventListener('touchend', handleTouchEnd);
-        mountRef.current.removeChild(renderer.domElement);
+      if (rendererRef.current) {
+        rendererRef.current.dispose();
       }
-      renderer.dispose();
-      window.removeEventListener('resize', handleResize);
     };
   }, []);
 
