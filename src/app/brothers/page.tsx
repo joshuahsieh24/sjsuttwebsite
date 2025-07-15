@@ -10,8 +10,48 @@ export default function BrothersPage() {
   const [revealedSections, setRevealedSections] = useState<Set<number>>(new Set());
   const lastScrollY = useRef(0);
   const [scrollDirection, setScrollDirection] = useState<'up' | 'down'>('down');
+  const [isMdOrLarger, setIsMdOrLarger] = useState(false);
 
   useEffect(() => {
+    // Check screen size
+    const checkScreenSize = () => {
+      setIsMdOrLarger(window.innerWidth >= 768); // md breakpoint is 768px
+    };
+
+    // Initial check
+    checkScreenSize();
+
+    // Listen for resize events
+    window.addEventListener('resize', checkScreenSize);
+
+    return () => {
+      window.removeEventListener('resize', checkScreenSize);
+    };
+  }, []);
+
+  useEffect(() => {
+    // Only set up animations if screen is md or larger
+    if (!isMdOrLarger) {
+      // For smaller screens, immediately show all content without animations
+      setRevealedSections(new Set([0, 1, 2]));
+      
+      // Add visible classes to all elements immediately
+      sectionRefs.current.forEach((section) => {
+        if (section) {
+          const header = section.querySelector('h1');
+          if (header) {
+            header.classList.add('visible');
+          }
+          const cards = section.querySelectorAll('.member-card');
+          cards.forEach((card) => {
+            card.classList.add('visible');
+          });
+        }
+      });
+      
+      return;
+    }
+
     // Track scroll direction
     const handleScroll = () => {
       const currentScrollY = window.scrollY;
@@ -58,29 +98,31 @@ export default function BrothersPage() {
           }
         } else if (!entry.isIntersecting && scrollDirection === 'up') {
           // When scrolling up, only hide if this is the highest revealed section
-          const highestRevealedSection = Math.max(...revealedSections);
-          
-          if (sectionIndex === highestRevealedSection) {
-            // Check if section is below viewport (scrolled past it going up)
-            const rect = entry.target.getBoundingClientRect();
-            if (rect.top > window.innerHeight) {
-              setRevealedSections(prev => {
+          setRevealedSections(prev => {
+            const highestRevealedSection = Math.max(...prev);
+            
+            if (sectionIndex === highestRevealedSection) {
+              // Check if section is below viewport (scrolled past it going up)
+              const rect = entry.target.getBoundingClientRect();
+              if (rect.top > window.innerHeight) {
                 const newSet = new Set(prev);
                 newSet.delete(sectionIndex);
+                
+                // Remove visible classes
+                const header = entry.target.querySelector('h1');
+                if (header) {
+                  header.classList.remove('visible');
+                }
+                const cards = entry.target.querySelectorAll('.member-card');
+                cards.forEach((card) => {
+                  card.classList.remove('visible');
+                });
+                
                 return newSet;
-              });
-              
-              // Remove visible classes
-              const header = entry.target.querySelector('h1');
-              if (header) {
-                header.classList.remove('visible');
               }
-              const cards = entry.target.querySelectorAll('.member-card');
-              cards.forEach((card) => {
-                card.classList.remove('visible');
-              });
             }
-          }
+            return prev;
+          });
         }
       });
     }, observerOptions);
@@ -96,7 +138,7 @@ export default function BrothersPage() {
         if (section) observer.unobserve(section);
       });
     };
-  }, [scrollDirection, revealedSections]);
+  }, [scrollDirection, isMdOrLarger]);
 
   const setSectionRef = (index: number) => (el: HTMLElement | null) => {
     sectionRefs.current[index] = el;
