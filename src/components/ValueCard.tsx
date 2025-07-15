@@ -31,7 +31,7 @@ const ValueCard: React.FC<FlipCardProps> = ({ frontImage, title, description }) 
             className="object-cover"
           />
           <div className="absolute bottom-0 w-full bg-black/50 p-4 text-white text-center group-hover:text-[#fecb33] duration-300">
-            <h3 className="text-xl font-semibold">{title}</h3>
+            <h3 className="text-xl">{title}</h3>
           </div>
         </div>
 

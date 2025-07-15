@@ -1,86 +1,185 @@
 "use client";
 
-import Carousel from "@/components/Carousel";
 import { VerticalTimeline, VerticalTimelineElement } from 'react-vertical-timeline-component';
 import 'react-vertical-timeline-component/style.min.css';
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
+import Image from "next/image";
 
-const carouselImages = [
-        './images/rush.jpg',
-        './images/rush_kyle.JPG',
-        './images/rush_grp.JPG',
-        './images/rush_logan.JPG',
-        './images/rush_kylie.JPG',
-        
+const heroBackgroundImages = [
+        '/images/rush.jpg',
+        '/images/rush_kyle.JPG',
+        '/images/rush_grp.JPG',
+        '/images/rush_logan.JPG',
+        '/images/rush_kylie.JPG',
     ];
 
 export default function RushPage() {
-    const headerRef = useRef<HTMLHeadingElement>(null);
+    const [scrollY, setScrollY] = useState(0);
+    const [backgroundIndex, setBackgroundIndex] = useState(0);
     const contentSectionRef = useRef<HTMLDivElement>(null);
+    const fadeDistance = 300; // tweak to taste
+    const heroOpacity = 1 - Math.min(scrollY / fadeDistance, 1);
 
     useEffect(() => {
-        // Handle timeline animations
-        const items = document.querySelectorAll<
-        HTMLElement
-        >('.vertical-timeline-element--work');
+        const onScroll = () => setScrollY(window.scrollY);
+        window.addEventListener('scroll', onScroll, { passive: true });
+        return () => window.removeEventListener('scroll', onScroll);
+    }, []);
 
-        const io = new IntersectionObserver(
-        (entries) => {
-            entries.forEach((entry) => {
-            if (entry.isIntersecting) {
-                entry.target.classList.add('in-view');
-            } else {
-                entry.target.classList.remove('in-view');
-            }
-            });
-        },
-        { threshold: 0.2 }
-        );
+    // Auto-cycle background images
+    useEffect(() => {
+        const interval = setInterval(() => {
+            setBackgroundIndex((prevIndex) => (prevIndex + 1) % heroBackgroundImages.length);
+        }, 5000); // Change every 5 seconds
 
-        items.forEach((el) => io.observe(el));
+        return () => clearInterval(interval);
+    }, []);
 
-        // Handle header and content section fade-in
-        const fadeObserver = new IntersectionObserver(
+    useEffect(() => {
+        // Small delay to ensure CSS is loaded
+        const timer = setTimeout(() => {
+            // Handle timeline animations
+            const items = document.querySelectorAll<
+            HTMLElement
+            >('.vertical-timeline-element--work');
+
+            const io = new IntersectionObserver(
             (entries) => {
                 entries.forEach((entry) => {
-                    if (entry.isIntersecting) {
-                        if (entry.target === headerRef.current) {
-                            // Fade in header
-                            entry.target.classList.add('visible');
-                            
-                            // After header animation, fade in content section
-                            setTimeout(() => {
-                                if (contentSectionRef.current) {
-                                    contentSectionRef.current.classList.add('visible');
-                                }
-                            }, 400); // Start content fade-in 400ms after header
-                        }
-                    }
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('in-view');
+                } else {
+                    entry.target.classList.remove('in-view');
+                }
                 });
             },
-            { threshold: 0.1 }
-        );
+            { threshold: 0.2 }
+            );
 
-        if (headerRef.current) {
-            fadeObserver.observe(headerRef.current);
-        }
+            items.forEach((el) => io.observe(el));
+
+            // Handle content section fade-in
+            const fadeObserver = new IntersectionObserver(
+                (entries) => {
+                    entries.forEach((entry) => {
+                        if (entry.isIntersecting) {
+                            entry.target.classList.add('visible');
+                        }
+                    });
+                },
+                { threshold: 0.1, rootMargin: '0px 0px -50px 0px' }
+            );
+
+            if (contentSectionRef.current) {
+                fadeObserver.observe(contentSectionRef.current);
+            }
+
+            // Store observers for cleanup
+            (window as any).__observers = { io, fadeObserver };
+        }, 100);
 
         return () => {
-            io.disconnect();
-            fadeObserver.disconnect();
+            clearTimeout(timer);
+            const observers = (window as any).__observers;
+            if (observers) {
+                observers.io.disconnect();
+                observers.fadeObserver.disconnect();
+            }
         };
     }, []);
 
     return (
         <>
-            <section className="min-h-[120px] flex items-center bg-[#18181a] text-white py-10">
-                <div className="max-w-[1100px] mx-auto px-4 w-full">
-                    <h1 
-                        ref={headerRef}
-                        className="text-3xl md:text-5xl font-thin flex justify-center items-center text-center mb-5 fade-in-section"
-                    >
-                        Recruitment
+            <style jsx>{`
+                .fade-in-section {
+                    opacity: 0;
+                    transform: translateY(20px);
+                    transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+                }
+                
+                .fade-in-section.visible {
+                    opacity: 1;
+                    transform: translateY(0);
+                }
+
+                .slide-in-right {
+                    opacity: 0;
+                    transform: translateX(30px);
+                    transition: opacity 0.8s ease-out 0.2s, transform 0.8s ease-out 0.2s;
+                }
+
+                .fade-in-section.visible .slide-in-right {
+                    opacity: 1;
+                    transform: translateX(0);
+                }
+
+                @keyframes fade-in-up {
+                    from {
+                        opacity: 0;
+                        transform: translateY(30px);
+                    }
+                    to {
+                        opacity: 1;
+                        transform: translateY(0);
+                    }
+                }
+
+                .animate-fade-in-up {
+                    animation: fade-in-up 1s ease-out;
+                }
+
+                .vertical-timeline-element--work {
+                    opacity: 0;
+                    transform: translateY(30px);
+                    transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+                }
+
+                .vertical-timeline-element--work.in-view {
+                    opacity: 1;
+                    transform: translateY(0);
+                }
+            `}</style>
+
+            <section className="relative flex flex-col justify-center items-center min-h-[92vh] font-sans overflow-hidden">
+                <div className="fixed inset-0 -z-20">
+                    {heroBackgroundImages.map((image, idx) => (
+                        <div
+                            key={idx}
+                            className="absolute inset-0 transition-opacity duration-[2000ms] ease-in-out"
+                            style={{
+                                opacity: idx === backgroundIndex ? 1 : 0,
+                            }}
+                        >
+                            <Image
+                                src={image}
+                                alt=""
+                                fill
+                                priority={idx === 0}
+                                style={{ objectFit: 'cover', objectPosition: 'center' }}
+                                aria-hidden="true"
+                            />
+                        </div>
+                    ))}
+                </div>
+    
+                <div className="fixed inset-0 -z-10 bg-black/60 pointer-events-none" />
+    
+                <div
+                    className="relative z-0 max-w-[1100px] transition-transform duration-75 text-left"
+                    style={{ 
+                        transform: `translateY(${scrollY * 0.5}px)`,
+                        opacity: heroOpacity,
+                    }}
+                >
+                    <h1 className="text-white leading-[0.9] text-[clamp(2.5rem,12vw,7rem)] sm:text-[clamp(3rem,10vw,7rem)] md:text-[clamp(3rem,8vw,7rem)] font-thin tracking-tight animate-fade-in-up">
+                    RECRUITMENT
                     </h1>
+                </div>      
+                {/* Scroll Indicator */}
+                <div className="absolute bottom-6 md:bottom-8 left-1/2 transform -translate-x-1/2 animate-bounce">
+                    <svg className="w-5 h-5 md:w-6 md:h-6 text-white opacity-70" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 14l-7 7m0 0l-7-7m7 7V3" />
+                    </svg>
                 </div>
             </section>
 
@@ -89,25 +188,23 @@ export default function RushPage() {
                     ref={contentSectionRef}
                     className="max-w-[1100px] mx-auto px-4 w-full fade-in-section"
                 >
-                    <div className="flex flex-col md:flex-row items-center justify-between gap-8 pt-8">
-
-                    <div className="flex-1 w-full md:max-w-[50%] text-left">
-                        <div className="grid grid-rows-[40px_auto]">
-                        <h2 className="text-[#fecb33] font-thin mb-2 text-2xl">FALL 2025 RUSH</h2>
-                        <p className="text-[#787e91] text-base">
-                            Rush is an opportunity for students to learn more about Theta Tau. 
-                            It consists of multiple events that will give you a taste of what our fraternity stands for, whether you are a good fit for us, and whether we are a good fit for you. 
-                            At the end of rush, we extend a limited number of interviews and bids. 
-                            Those who receive bids can then decide whether or not they would like to pledge. 
-                            Rushing is completely free of charge and there are no obligations.
-                        </p>
+                    <div className="flex flex-col items-center justify-between gap-8 py-8">
+                        <div className="flex-1 w-full md:max-w-[50%] items-center">
+                            <div className="grid grid-rows-[40px_auto] items-center">
+                                <div className='text-center'>
+                                    <h2 className="text-[#fecb33] font-thin mb-2 text-2xl">WHAT IS RUSH</h2>
+                                </div>
+                                <div className='text-left ml-4'>
+                                    <p className="text-[#787e91] text-base">
+                                    Rush is an opportunity for students to learn more about Theta Tau. 
+                                    It consists of multiple events that will give you a taste of what our fraternity stands for, whether you are a good fit for us, and whether we are a good fit for you. 
+                                    At the end of rush, we extend a limited number of interviews and bids. 
+                                    Those who receive bids can then decide whether or not they would like to pledge. 
+                                    Rushing is completely free of charge and there are no obligations.
+                                    </p>
+                                </div>
+                            </div>
                         </div>
-                    </div>
-
-                    <div className="flex-1 w-full md:max-w-[50%] slide-in-right">
-                        <Carousel images={carouselImages} />
-                    </div>
-
                     </div>
                 </div>
             </section>
