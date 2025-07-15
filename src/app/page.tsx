@@ -73,8 +73,8 @@ export default function Home() {
             <link rel="shortcut icon" href="/images/logo.png" type="image/x-icon" />
         </Head>
 
-        {/* Hero Section with Parallax */}
-        <section className="relative flex flex-col justify-start pt-100 min-h-screen font-sans overflow-hidden">
+        {/* Hero Section with Parallax - Mobile Optimized */}
+        <section className="relative flex flex-col justify-start pt-95 min-h-[80vh] md:min-h-screen font-sans overflow-hidden">
             <div className="fixed inset-0 -z-20">
               <Image
                 src="/images/group.jpg"
@@ -89,25 +89,25 @@ export default function Home() {
             <div className="fixed inset-0 -z-10 bg-black/60 pointer-events-none" />
 
             <div
-              className="relative z-0 max-w-[1100px] px-20 pt-8 transition-transform duration-75 text-left"
+              className="relative z-0 max-w-[1100px] px-5 sm:px-8 md:px-12 lg:px-20 pt-2 sm:pt-4 md:pt-6 lg:pt-8 transition-transform duration-75 text-left"
               style={{ 
                     transform: `translateY(${scrollY * 0.5}px)`,
                     opacity: heroOpacity,
                 }}
             >
-              <h1 className="text-white leading-[0.9] text-[clamp(3rem,8vw,7rem)] font-bold tracking-tight animate-fade-in-up">
+              <h1 className="text-white leading-[0.9] text-[clamp(2.5rem,12vw,7rem)] sm:text-[clamp(3rem,10vw,7rem)] md:text-[clamp(3rem,8vw,7rem)] font-bold tracking-tight animate-fade-in-up">
                 THETA TAU
               </h1>
               <p
-                className="mt-4 text-white text-[2rem] font-thin leading-tight tracking-tight animate-fade-in-up animation-delay-800"
+                className="mt-2 sm:mt-3 md:mt-4 text-white text-[1.1rem] sm:text-[1.25rem] md:text-[1.75rem] lg:text-[2rem] font-thin leading-tight tracking-tight animate-fade-in-up animation-delay-800"
               >
                 Premier Professional <span className="font-semibold">CO-ED</span> Engineering  
                 <br />Fraternity at San José State
               </p>
             </div>      
             {/* Scroll Indicator */}
-            <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 animate-bounce">
-                <svg className="w-6 h-6 text-white opacity-70" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <div className="absolute bottom-6 md:bottom-8 left-1/2 transform -translate-x-1/2 animate-bounce">
+                <svg className="w-5 h-5 md:w-6 md:h-6 text-white opacity-70" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 14l-7 7m0 0l-7-7m7 7V3" />
                 </svg>
             </div>
