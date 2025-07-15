@@ -75,11 +75,13 @@ export default function RushPage() {
             }
 
             // Store observers for cleanup
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
             (window as any).__observers = { io, fadeObserver };
         }, 100);
 
         return () => {
             clearTimeout(timer);
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
             const observers = (window as any).__observers;
             if (observers) {
                 observers.io.disconnect();
