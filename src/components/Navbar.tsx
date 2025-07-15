@@ -4,153 +4,151 @@ import Link from "next/link";
 import Image from "next/image";
 import { useState, useEffect } from "react";
 import logo from "../../public/images/logo.png";
+import { useRouter, usePathname } from "next/navigation";
+
+const NAV_ITEMS = ["about","brothers","rush","FAQ","careers"];
 
 const Navbar: React.FC = () => {
-  const [menuOpen, setMenuOpen] = useState<boolean>(false);
+  const [menuOpen, setMenuOpen] = useState(false);
+  const [showNav, setShowNav] = useState(true);
+  const pathname = usePathname();
+  const router = useRouter();
 
-  const toggleMenu = (): void => {
-    console.log(menuOpen)
-    setMenuOpen(!menuOpen);
-  };
+  // toggle mobile menu
+  const toggleMenu = () => setMenuOpen(!menuOpen);
 
+  // close mobile menu on resize ≥ md
   useEffect(() => {
-  const handleResize = () => {
-    if (window.innerWidth >= 768) {
-      setMenuOpen(false);
+    const handleResize = () => {
+      if (window.innerWidth >= 768) setMenuOpen(false);
+    };
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
+  // track scroll direction
+  useEffect(() => {
+    let lastY = window.scrollY;
+    const handleScroll = () => {
+      const y = window.scrollY;
+      // show if scrolling up OR near top of page
+      setShowNav(y < lastY || y < 50);
+      lastY = y;
+    };
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  const handleAboutClick = (e: React.MouseEvent) => {
+    // already on home?
+    if (pathname === "/") {
+      e.preventDefault();
+      const aboutSection = document.getElementById("about");
+      if (aboutSection) {
+        aboutSection.scrollIntoView({ behavior: "smooth" });
+      }
+    } else {
+      // navigate to home with hash
+      router.push("/#about");
     }
+    setMenuOpen(false);
   };
-  window.addEventListener("resize", handleResize);
-  return () => window.removeEventListener("resize", handleResize);
-}, []);
 
   return (
-    <nav className="bg-[#141416] py-8 px-4">
-      <div className="max-w-[1100px] mx-auto flex justify-between items-center px-4">
-        <div className="flex items-center">
-          <Link href="/" className="flex items-center">
-            <Image
-              src={logo}
-              alt="logo one"
-              width={30}
-              height={30}
-              className="mr-2"
-            />
-          </Link>
+    <nav
+      className={`
+        fixed top-0 left-0 w-full z-50
+        bg-[#141416] py-4 px-6
+        transition-opacity duration-300 ease-in-out
+        ${showNav ? "opacity-100" : "opacity-0"}
+      `}
+    >
+      <div className="max-w-[1100px] mx-auto flex justify-between items-center">
+        {/* Logo */}
+        <Link href="/" className="flex items-center">
+          <Image src={logo} alt="logo" width={30} height={30} className="mr-2" />
           <div className="inline-flex flex-col font-semibold">
-            <Link
-              href="/"
-              className="bg-gradient-to-r from-[#6d0b0e] via-[#f5a623] to-[#6d0b0e] bg-[length:500%_500%] text-transparent bg-clip-text animate-[gradient-shift_20s_linear_infinite] font-semibold"
-              style={{
-                WebkitBackgroundClip: "text",
-                backgroundClip: "text",
-              }}
-            >
-              THETA TAU
-            </Link>
-            <Link
-              href="/"
-              className="text-[#fecb33] block text-[10px]"
-            >
-              Omega Epsilon
-            </Link>
+            <span className="text-white">THETA TAU</span>
+            <span className="text-[#fecb33] text-[10px]">Omega Epsilon</span>
           </div>
-        </div>
+        </Link>
 
-        {/* Main Menu for Desktop */}
-        <div className="hidden md:block">
-          <ul className="flex">
-            <li>
-              <Link href="/about" className="px-5 py-2 font-semibold transition duration-700 hover:text-[#fecb33]">
-                About Us
-              </Link>
-            </li>
-            <li>
-              <Link href="/brothers" className="px-5 py-2 font-semibold transition duration-700 hover:text-[#fecb33]">
-                Brothers
-              </Link>
-            </li>
-            <li>
-              <Link href="/rush" className="px-5 py-2 font-semibold transition duration-700 hover:text-[#fecb33]">
-                Rush
-              </Link>
-            </li>
-            <li>
-              <Link href="/faq" className="px-5 py-2 font-semibold transition duration-700 hover:text-[#fecb33]">
-                FAQ
-              </Link>
-            </li>
-            <li>
-              <Link href="/careers" className="px-5 py-2 font-bold transition duration-700 hover:text-[#fecb33]">
-                Careers
-              </Link>
-            </li>
-            <li>
-              <Link
-                href="#"
-                className=" px-5 py-3 border-2 border-[#fecb33] rounded-full bg-[#fecb33] font-semibold text-[#141416] transition duration-700 hover:opacity-80 text-white"
-              >
-                Apply
-              </Link>
-            </li>
-          </ul>
-        </div>
+        {/* Desktop menu */}
+        <ul className="hidden md:flex space-x-6 text-white">
+          {NAV_ITEMS.map((path) => {
+            if (path === "about") {
+              return (
+                <li key="about">
+                  <Link
+                    href="/#about"
+                    scroll={false}
+                    onClick={handleAboutClick}
+                    className="hover:text-[#fecb33]"
+                  >
+                    About
+                  </Link>
+                </li>
+              );
+            }
+            return (
+              <li key={path}>
+                <Link href={`/${path}`} onClick={() => setMenuOpen(false)} className="hover:text-[#fecb33]">
+                  {path[0].toUpperCase() + path.slice(1)}
+                </Link>
+              </li>
+            );
+          })}
+          <li>
+            <Link href="#" className="px-4 py-2 bg-[#fecb33] text-[#141416] rounded-full hover:opacity-80">
+              Apply
+            </Link>
+          </li>
+        </ul>
 
-        {/* Hamburger Button for Mobile */}
-        <button
-          id="hamburger-button"
-          onClick={toggleMenu}
-          className="md:hidden flex flex-col justify-center items-center bg-transparent border-none cursor-pointer p-2 z-50"
-          aria-label="Toggle mobile menu"
-        >
-          <span className="block w-8 h-1 bg-white my-1"></span>
-          <span className="block w-8 h-1 bg-white my-1"></span>
-          <span className="block w-8 h-1 bg-white my-1"></span>
+        {/* Mobile hamburger */}
+        <button onClick={toggleMenu} className="md:hidden p-2">
+          <span className="block w-6 h-0.5 bg-white mb-1" />
+          <span className="block w-6 h-0.5 bg-white mb-1" />
+          <span className="block w-6 h-0.5 bg-white" />
         </button>
 
+        {/* Mobile menu overlay */}
         {menuOpen && (
-          <div
-            className="fixed inset-0 bg-opacity-50 z-30 md:hidden"
-            onClick={() => setMenuOpen(false)}
-          />
-        )}
-
-        {/* Mobile Menu */}
-        {menuOpen && (
-          <div
-            className="fixed top-0 right-0 w-[250px] h-full z-40 bg-[#141416] shadow-lg transition-all duration-300 md:hidden"
-          >
-            <ul className="mt-24 pr-2">
-              <li>
-                <Link href="/about" className="block text-lg px-6 py-3 font-semibold text-white hover:text-[#fecb33]" onClick={() => setMenuOpen(false)}>
-                  About Us
-                </Link>
-              </li>
-              <li>
-                <Link href="/brothers" className="block text-lg px-6 py-3 font-semibold text-white hover:text-[#fecb33]" onClick={() => setMenuOpen(false)}>
-                  Brothers
-                </Link>
-              </li>
-              <li>
-                <Link href="/rush" className="block text-lg px-6 py-3 font-semibold text-white hover:text-[#fecb33]" onClick={() => setMenuOpen(false)}>
-                  Rush
-                </Link>
-              </li>
-              <li>
-                <Link href="/faq" className="block text-lg px-6 py-3 font-semibold text-white hover:text-[#fecb33]" onClick={() => setMenuOpen(false)}>
-                  FAQ
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="#"
-                  className="block w-4/5 mx-auto my-2 py-2 text-center border-2 border-[#fecb33] rounded-full bg-[#fecb33] font-semibold text-[#141416] hover:opacity-80 transition"
-                  onClick={() => setMenuOpen(false)}
-                >
-                  Apply
-                </Link>
-              </li>
-            </ul>
-          </div>
+          <>
+            <div className="fixed inset-0 bg-black/50 z-40" onClick={toggleMenu} />
+            <div className="fixed top-0 right-0 w-64 h-full bg-[#141416] z-50 p-6">
+              <ul className="space-y-4 text-white font-thin">
+                {NAV_ITEMS.map((path) => {
+                  if (path === "about") {
+                    return (
+                      <li key="about">
+                        <Link
+                          href="/#about"
+                          scroll={false}
+                          onClick={handleAboutClick}
+                          className="hover:text-[#fecb33]"
+                        >
+                          About
+                        </Link>
+                      </li>
+                    );
+                  }
+                  return (
+                    <li key={path}>
+                      <Link href={`/${path}`} onClick={() => setMenuOpen(false)} className="hover:text-[#fecb33]">
+                        {path[0].toUpperCase() + path.slice(1)}
+                      </Link>
+                    </li>
+                  );
+                })}
+                <li>
+                  <Link href="#" className="px-4 py-2 bg-[#fecb33] text-[#141416] rounded-full hover:opacity-80">
+                    Apply
+                  </Link>
+                </li>
+              </ul>
+            </div>
+          </>
         )}
       </div>
     </nav>

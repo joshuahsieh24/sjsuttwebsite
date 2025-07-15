@@ -10,24 +10,25 @@ const geistSans = Geist({
 });
 
 export const metadata: Metadata = {
-  title: "Theta Tau @ San Jose State University",
+  title: "Theta Tau @ SJSU",
   description: "Created by Theta Tau Actives!",
 };
 
 export default function RootLayout({
   children,
-}: Readonly<{
+}: {
   children: React.ReactNode;
-}>) {
+}) {
   return (
     <html lang="en">
-      <Navbar />
-      <body
-        className={`${geistSans.variable} font-sans antialiased`}
-      >
-        {children}
+      {/* Next.js will automatically inject your <head> elements here */}
+      <body className={`${geistSans.variable} font-sans antialiased`}>
+        <Navbar />
+        <main style={{ paddingTop: 'var(--navbar-height)' }}>
+          {children}
+        </main>
+        <Footer />
       </body>
-      <Footer />
     </html>
   );
 }

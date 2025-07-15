@@ -55,7 +55,7 @@ const logos = [
   { src: '/companies/starbucks.png', alt: 'Starbucks', url: 'https://www.starbucks.com/' }
 ];
 
-const CompanyGlobe = () => {
+const CompanyLogoDisplay = () => {
   const mountRef = useRef(null);
   const sceneRef = useRef(null);
   const rendererRef = useRef(null);
@@ -68,7 +68,10 @@ const CompanyGlobe = () => {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    if (!mountRef.current) return;
+    console.log("🏁 CompanyLogoDisplay mounted, mountRef:", mountRef.current);
+    if (!mountRef.current) {
+      return;
+    }
 
     let cleanupFunction = null;
     let timeoutId = null;
@@ -78,6 +81,7 @@ const CompanyGlobe = () => {
       if (mountRef.current && mountRef.current.clientWidth > 0 && mountRef.current.clientHeight > 0) {
         // Use requestAnimationFrame to ensure browser has painted
         requestAnimationFrame(() => {
+          console.log("▶️ about to initialize scene");
           cleanupFunction = initializeScene();
         });
       } else {
@@ -467,7 +471,7 @@ const CompanyGlobe = () => {
   }, []);
 
   return (
-    <div className="flex-1 w-full md:max-w-[50%] relative">
+    <div className="flex-1 w-full md:max-w-[100%] relative">
       <div className="relative">
         <div 
           ref={mountRef} 
@@ -492,4 +496,4 @@ const CompanyGlobe = () => {
   );
 };
 
-export default CompanyGlobe;
+export default CompanyLogoDisplay;

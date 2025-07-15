@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 
 interface CarouselProps {
@@ -13,8 +13,14 @@ const Carousel: React.FC<CarouselProps> = ({ images }) => {
   const prev = () => setIndex((index - 1 + images.length) % images.length);
   const next = () => setIndex((index + 1) % images.length);
 
+  // Auto-advance 5s after each index change:
+  useEffect(() => {
+    const timer = window.setTimeout(next, 5000);
+    return () => window.clearTimeout(timer);
+  }, [index, images.length]);
+
   return (
-    <div className="relative w-full max-w-2xl mx-auto overflow-hidden rounded-2xl shadow-lg">
+    <div className="relative w-full max-w-2xl mx-auto overflow-hidden shadow-lg">
       {/* image and arrows in the same container */}
       <div className="relative aspect-[3/2] sm:h-96 w-full">
         <AnimatePresence mode="wait">

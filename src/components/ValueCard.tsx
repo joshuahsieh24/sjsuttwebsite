@@ -23,7 +23,7 @@ const ValueCard: React.FC<FlipCardProps> = ({ frontImage, title, description }) 
           flipped ? 'rotate-y-180' : ''
         }`}
       >
-        <div className="absolute w-full h-full backface-hidden rounded-lg overflow-hidden shadow-lg hover:scale-105 duration-300">
+        <div className="absolute w-full h-full backface-hidden overflow-hidden shadow-lg hover:scale-105 duration-300">
           <Image
             src={frontImage}
             alt={title}
@@ -35,9 +35,9 @@ const ValueCard: React.FC<FlipCardProps> = ({ frontImage, title, description }) 
           </div>
         </div>
 
-        <div className="absolute w-full h-full bg-[#18181a] text-white rounded-lg p-6 transform rotate-y-180 backface-hidden shadow-lg flex flex-col justify-center items-center text-center">
-          <h3 className="text-2xl font-semibold text-[#e4e4e4] mb-2">{title}</h3>
-          <p className="text-base text-[#787e91]">{description}</p>
+        <div className="absolute w-full h-full bg-[#18181a] text-white rounded-lg p-6 transform rotate-y-180 backface-hidden shadow-lg flex flex-col justify-center items-center">
+          <h3 className="text-2xl font-semibold text-[#e4e4e4] mb-2 text-center">{title}</h3>
+          <p className="text-base text-[#787e91] text-left ml-4">{description}</p>
         </div>
       </div>
     </div>

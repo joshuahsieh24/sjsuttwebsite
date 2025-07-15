@@ -1,6 +1,6 @@
 'use client';
 import Head from 'next/head';
-import { useState } from 'react';
+import { useState, useEffect, useRef } from 'react';
 
 interface FAQItem {
   question: string;
@@ -36,7 +36,7 @@ const faqData: FAQItem[] = [
   {
     question: 'Do you only accept engineering majors?',
     answer:
-      'No, we’ve accepted students in Computer Science, Applied Math, Packaging, and Cognitive Science as well.',
+      'No, we\'ve accepted students in Computer Science, Applied Math, Packaging, and Cognitive Science as well.',
   },
   {
     question: 'What is pledging?',
@@ -47,10 +47,51 @@ const faqData: FAQItem[] = [
 
 export default function QuestionsPage() {
   const [openIndex, setOpenIndex] = useState<number | null>(0); // first one open by default
+  const headerRef = useRef<HTMLHeadingElement>(null);
+  const faqContainerRef = useRef<HTMLDivElement>(null);
 
   const toggleFAQ = (index: number) => {
     setOpenIndex(openIndex === index ? null : index);
   };
+
+  useEffect(() => {
+    const observerOptions = {
+      root: null,
+      rootMargin: '0px',
+      threshold: 0.1
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          if (entry.target === headerRef.current) {
+            // Fade in header
+            entry.target.classList.add('visible');
+            
+            // After header animation, start FAQ items cascade
+            setTimeout(() => {
+              if (faqContainerRef.current) {
+                const faqItems = faqContainerRef.current.querySelectorAll('.faq-item');
+                faqItems.forEach((item, index) => {
+                  setTimeout(() => {
+                    item.classList.add('visible');
+                  }, index * 100); // 100ms delay between each FAQ item
+                });
+              }
+            }, 400); // Start FAQs 400ms after header begins
+          }
+        }
+      });
+    }, observerOptions);
+
+    if (headerRef.current) {
+      observer.observe(headerRef.current);
+    }
+
+    return () => {
+      observer.disconnect();
+    };
+  }, []);
 
   return (
     <>
@@ -62,17 +103,20 @@ export default function QuestionsPage() {
 
       <section className="py-10 bg-[#141416] min-h-screen text-white">
         <div className="max-w-[800px] mx-auto px-4">
-          <h1 className="text-3xl font-bold text-[#e4e4e4] text-center pb-8">
+          <h1 
+            ref={headerRef}
+            className="text-3xl font-thin text-[#e4e4e4] text-center pb-8 fade-in-section"
+          >
             Frequently Asked Questions
           </h1>
 
-          <div className="space-y-4">
+          <div ref={faqContainerRef} className="space-y-4">
             {faqData.map((faq, index) => {
               const isOpen = openIndex === index;
               return (
                 <div
                   key={index}
-                  className="border-b border-[#e4e4e4] pb-4 transition-all"
+                  className="faq-item border-b border-[#e4e4e4] pb-4 transition-all stagger-fade"
                 >
                   <button
                     onClick={() => toggleFAQ(index)}
