@@ -429,16 +429,36 @@ const CompanyLogoDisplay = () => {
           mountElement.removeChild(renderer.domElement);
         }
         
-        // Clear the scene
+        // Clear the scene with proper type checking
         if (scene) {
           scene.traverse((object) => {
-            if (object.geometry) object.geometry.dispose();
-            if (object.material) {
-              if (Array.isArray(object.material)) {
-                object.material.forEach(material => material.dispose());
-              } else {
-                object.material.dispose();
+            // Type guard to check if object is a Mesh
+            if (object instanceof THREE.Mesh) {
+              // Dispose geometry
+              if (object.geometry) {
+                object.geometry.dispose();
               }
+              
+              // Dispose material(s)
+              if (object.material) {
+                if (Array.isArray(object.material)) {
+                  object.material.forEach(material => {
+                    if (material) material.dispose();
+                  });
+                } else {
+                  object.material.dispose();
+                }
+              }
+            }
+            
+            // Check for textures in any material
+            if ('material' in object && object.material) {
+              const materials = Array.isArray(object.material) ? object.material : [object.material];
+              materials.forEach((material: any) => {
+                if (material && material.map) {
+                  material.map.dispose();
+                }
+              });
             }
           });
           scene.clear();
