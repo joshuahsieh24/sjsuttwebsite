@@ -454,9 +454,10 @@ const CompanyLogoDisplay = () => {
             // Check for textures in any material
             if ('material' in object && object.material) {
               const materials = Array.isArray(object.material) ? object.material : [object.material];
-              materials.forEach((material: any) => {
-                if (material && material.map) {
-                  material.map.dispose();
+              materials.forEach((material: THREE.Material) => {
+                // Check if material has a map property (texture)
+                if (material && 'map' in material && material.map) {
+                  (material.map as THREE.Texture).dispose();
                 }
               });
             }
