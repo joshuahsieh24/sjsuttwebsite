@@ -47,7 +47,7 @@
         {
         "name": "Alex Dang",
         "role": "New Member Educator",
-        "image": "./headshots/alex.jpg",
+        "image": "./headshots/alex.jpeg",
         "major": "Civil Engineering",
         "class": "Kappa"
         },
@@ -184,7 +184,7 @@
         },
         {
             "name": "Sohum Tiwary",
-            "image": "./headshots/sohum.jpg",
+            "image": "./headshots/sohum.JPG",
             "major": "Computer Engineering",
             "class": "Theta"
         },
@@ -250,7 +250,7 @@
         },
         {
             "name": "Timmy Chen",
-            "image": "./headshots/timmy.jpg",
+            "image": "./headshots/timmy.JPG",
             "major": "Data Science",
             "class": "Kappa"
         },

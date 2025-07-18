@@ -214,44 +214,87 @@ export default function RushPage() {
 
             <section className="py-16 bg-[#18181a]">
                 <div className="max-w-4xl mx-auto px-4">
-                <h2 className="text-[#fecb33] font-thin text-3xl mb-10 text-center">
-                    Rush Week Timeline
-                </h2>
-                <VerticalTimeline lineColor="#fecb33">
-                    {[
-                    {
-                        title: 'Info Night',
-                        body: 'Meet the brothers and learn about Theta Tau! 7:00 PM @ Student Union Room 1',
-                    },
-                    {
-                        title: 'Professional Night',
-                        body: 'Resume workshop and networking with alumni. 7:00 PM @ Engineering Building 285',
-                    },
-                    {
-                        title: 'Social Night',
-                        body: 'Fun activities and games with the brothers. 6:00 PM @ Tower Lawn',
-                    },
-                    ].map((evt, i) => (
-                    <VerticalTimelineElement
-                        key={i}
-                        className="vertical-timeline-element--work"
-                        contentStyle={{
-                        background: '#18181a',
-                        color: '#e4e4e4',
-                        borderTop: '4px solid #fecb33',
-                        }}
-                        contentArrowStyle={{
-                        borderRight: '7px solid #18181a',
-                        }}
-                        iconStyle={{ background: '#fecb33', color: '#18181a' }}
-                    >
-                        <h3 className="vertical-timeline-element-title font-bold text-lg">
-                        {evt.title}
-                        </h3>
-                        <p>{evt.body}</p>
-                    </VerticalTimelineElement>
-                    ))}
-                </VerticalTimeline>
+                    <h2 className="text-[#fecb33] font-semibold text-3xl mb-10 text-center">Rush Week Timeline</h2>
+                        <VerticalTimeline lineColor="#fecb33">
+                            <VerticalTimelineElement
+                                className="vertical-timeline-element--work"
+                                contentStyle={{ background: "#18181a", color: "#e4e4e4", borderTop: "4px solid #fecb33" }}
+                                contentArrowStyle={{ borderRight: "7px solid #18181a" }}
+                                iconStyle={{ background: "#fecb33", color: "#18181a" }}
+                            >
+                                <h3 className="vertical-timeline-element-title font-bold text-lg">Information Night #1</h3>
+                                <h4 className='italic'>August 25th, 2025</h4>
+                                <p>
+                                Meet the brothers and learn about Theta Tau! <br />
+                                Time and Location TBD
+                                </p>
+                            </VerticalTimelineElement>
+                            <VerticalTimelineElement
+                                className="vertical-timeline-element--work"
+                                contentStyle={{ background: "#18181a", color: "#e4e4e4", borderTop: "4px solid #fecb33" }}
+                                contentArrowStyle={{ borderRight: "7px solid #18181a" }}
+                                iconStyle={{ background: "#fecb33", color: "#18181a" }}
+                            >
+                                <h3 className="vertical-timeline-element-title font-bold text-lg">Innovation Night</h3>
+                                <h4 className='italic'>August 27th, 2025</h4>
+                                <p>
+                                Activities with fellow Rushees and Actives!<br />
+                                Time and Location TBD
+                                </p>
+                            </VerticalTimelineElement>
+                            <VerticalTimelineElement
+                                className="vertical-timeline-element--work"
+                                contentStyle={{ background: "#18181a", color: "#e4e4e4", borderTop: "4px solid #fecb33" }}
+                                contentArrowStyle={{ borderRight: "7px solid #18181a" }}
+                                iconStyle={{ background: "#fecb33", color: "#18181a" }}
+                            >
+                                <h3 className="vertical-timeline-element-title font-bold text-lg">Professional Night</h3>
+                                <h4 className='italic'>August 28th, 2025</h4>
+                                <p>
+                                Workshop and network with Theta Tau Actives!<br />
+                                Time and Location TBD
+                                </p>
+                            </VerticalTimelineElement>
+                            <VerticalTimelineElement
+                                className="vertical-timeline-element--work"
+                                contentStyle={{ background: "#18181a", color: "#e4e4e4", borderTop: "4px solid #fecb33" }}
+                                contentArrowStyle={{ borderRight: "7px solid #18181a" }}
+                                iconStyle={{ background: "#fecb33", color: "#18181a" }}
+                            >
+                                <h3 className="vertical-timeline-element-title font-bold text-lg">Information Night #2</h3>
+                                <h4 className='italic'>August 31st, 2025</h4>
+                                <p>
+                                Makeup Information Night to learn about Theta Tau.<br />
+                                Time and Location TBD
+                                </p>
+                            </VerticalTimelineElement>
+                            <VerticalTimelineElement
+                                className="vertical-timeline-element--work"
+                                contentStyle={{ background: "#18181a", color: "#e4e4e4", borderTop: "4px solid #fecb33" }}
+                                contentArrowStyle={{ borderRight: "7px solid #18181a" }}
+                                iconStyle={{ background: "#fecb33", color: "#18181a" }}
+                            >
+                                <h3 className="vertical-timeline-element-title font-bold text-lg">Meet the Brothers</h3>
+                                <h4 className='italic'>September 3rd, 2025</h4>
+                                <p>
+                                Mingle and talk with the Actives of Theta Tau!<br />
+                                Time and Location TBD
+                                </p>
+                            </VerticalTimelineElement>
+                            <VerticalTimelineElement
+                                className="vertical-timeline-element--work"
+                                contentStyle={{ background: "#18181a", color: "#e4e4e4", borderTop: "4px solid #fecb33" }}
+                                contentArrowStyle={{ borderRight: "7px solid #18181a" }}
+                                iconStyle={{ background: "#fecb33", color: "#18181a" }}
+                            >
+                                <h3 className="vertical-timeline-element-title font-bold text-lg">Invite Only</h3>
+                                <h4 className='italic'>September 6th, 2025</h4>
+                                <p>
+                                TBD.<br />
+                                Time and Location TBD
+                                </p>
+                            </VerticalTimelineElement>
+                    </VerticalTimeline>
                 </div>
             </section>
         </>
