@@ -56,15 +56,15 @@ const logos = [
 ];
 
 const CompanyLogoDisplay = () => {
-  const mountRef = useRef(null);
-  const sceneRef = useRef(null);
-  const rendererRef = useRef(null);
-  const frameRef = useRef(null);
-  const globeRef = useRef(null);
+  const mountRef = useRef<HTMLDivElement>(null);
+  const sceneRef = useRef<THREE.Scene | null>(null);
+  const rendererRef = useRef<THREE.WebGLRenderer | null>(null);
+  const frameRef = useRef<number | null>(null);
+  const globeRef = useRef<THREE.Mesh | null>(null);
   const isDragging = useRef(false);
   const previousMousePosition = useRef({ x: 0, y: 0 });
   const rotationSpeed = useRef({ x: 0.003, y: 0 });
-  const [hoveredLogo, setHoveredLogo] = useState(null);
+  const [hoveredLogo, setHoveredLogo] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
@@ -73,8 +73,8 @@ const CompanyLogoDisplay = () => {
       return;
     }
 
-    let cleanupFunction = null;
-    let timeoutId = null;
+    let cleanupFunction: (() => void) | null = null;
+    let timeoutId: NodeJS.Timeout | null = null;
 
     // Wait for container to have dimensions
     const checkDimensions = () => {
@@ -90,7 +90,7 @@ const CompanyLogoDisplay = () => {
       }
     };
 
-    const initializeScene = () => {
+    const initializeScene = (): (() => void) | null => {
       // Store mount element reference for cleanup
       const mountElement = mountRef.current;
       if (!mountElement) return null;
@@ -150,7 +150,7 @@ const CompanyLogoDisplay = () => {
       let loadedCount = 0;
       
       // Calculate positions for logos on sphere surface with tighter spacing
-      const logoPositions = [];
+      const logoPositions: { x: number; y: number; z: number }[] = [];
       const phi = Math.PI * (3 - Math.sqrt(5)); // golden angle
       
       logos.forEach((logo, i) => {
@@ -232,7 +232,7 @@ const CompanyLogoDisplay = () => {
       const raycaster = new THREE.Raycaster();
       const mouse = new THREE.Vector2();
 
-      const handleMouseMove = (event) => {
+      const handleMouseMove = (event: MouseEvent) => {
         if (!mountElement) return;
         const rect = mountElement.getBoundingClientRect();
         mouse.x = ((event.clientX - rect.left) / rect.width) * 2 - 1;
@@ -247,7 +247,7 @@ const CompanyLogoDisplay = () => {
         });
         
         if (intersects.length > 0) {
-          const hoveredObject = intersects[0].object;
+          const hoveredObject = intersects[0].object as THREE.Mesh;
           if (hoveredObject.userData.name) {
             setHoveredLogo(hoveredObject.userData.name);
             mountElement.style.cursor = 'pointer';
@@ -261,7 +261,7 @@ const CompanyLogoDisplay = () => {
         }
       };
 
-      const handleClick = (event) => {
+      const handleClick = (event: MouseEvent) => {
         if (!mountElement || isDragging.current) return;
         const rect = mountElement.getBoundingClientRect();
         mouse.x = ((event.clientX - rect.left) / rect.width) * 2 - 1;
@@ -271,7 +271,7 @@ const CompanyLogoDisplay = () => {
         const intersects = raycaster.intersectObjects(logoGroup.children);
         
         if (intersects.length > 0) {
-          const clickedObject = intersects[0].object;
+          const clickedObject = intersects[0].object as THREE.Mesh;
           const logoData = logos[clickedObject.userData.index];
           if (logoData.url) {
             window.open(logoData.url, '_blank');
@@ -279,7 +279,7 @@ const CompanyLogoDisplay = () => {
         }
       };
 
-      const handleMouseDown = (event) => {
+      const handleMouseDown = (event: MouseEvent) => {
         isDragging.current = true;
         previousMousePosition.current = {
           x: event.clientX,
@@ -291,7 +291,7 @@ const CompanyLogoDisplay = () => {
         isDragging.current = false;
       };
 
-      const handleDragMove = (event) => {
+      const handleDragMove = (event: MouseEvent) => {
         if (!isDragging.current || !globeRef.current) return;
 
         const deltaMove = {
@@ -319,7 +319,7 @@ const CompanyLogoDisplay = () => {
       };
 
       // Touch events for mobile
-      const handleTouchStart = (event) => {
+      const handleTouchStart = (event: TouchEvent) => {
         isDragging.current = true;
         const touch = event.touches[0];
         previousMousePosition.current = {
@@ -328,7 +328,7 @@ const CompanyLogoDisplay = () => {
         };
       };
 
-      const handleTouchMove = (event) => {
+      const handleTouchMove = (event: TouchEvent) => {
         if (!isDragging.current || !globeRef.current) return;
         event.preventDefault();
         
