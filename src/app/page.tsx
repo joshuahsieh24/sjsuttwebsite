@@ -11,7 +11,7 @@ export default function Home() {
     const [scrollY, setScrollY] = useState(0);
     
     const carouselImages = [
-        './images/s25reveal_v3.JPG',
+        './images/s25reveal_v3.jpg',
         './images/eboard.JPG',
         './images/retreat_1.jpg',
         './images/snowboard.jpg',
