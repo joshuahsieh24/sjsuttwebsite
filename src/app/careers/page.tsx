@@ -64,7 +64,7 @@ export default function CareersPage() {
               <button
                 key={year}
                 onClick={() => setSelectedYear(year)}
-                className={`px-6 py-2 rounded-full text-lg font-medium border transition-colors ${
+                className={`px-6 py-2 rounded-full text-lg font-medium border transition-colors cursor-pointer ${
                   selectedYear === year
                     ? "bg-[#FFD700] text-black border-[#FFD700]"
                     : "border-gray-400 text-white hover:bg-white/10"

@@ -25,6 +25,11 @@
             "name": "Duy-Anh Dang",
             "role": "Software Engineer",
             "company": "Supermicro"
+        },
+        {
+            "name": "Christopher Wong",
+            "role": "SoC Design Engineer",
+            "company": "Intel Corporation"
         }
     ],
     "interns": [
@@ -112,11 +117,6 @@
             "name": "James Kim",
             "role": "Solutions Architect Intern",
             "company": "Amazon"
-        },
-        {
-            "name": "Christopher Wong",
-            "role": "Design Engineering Intern",
-            "company": "Intel Corporation"
         },
         {
             "name": "Lac-Phong Nguyen",
@@ -208,6 +208,11 @@
             "name": "Charmi Athuluru",
             "role": "Systems Reliability Engineering Intern",
             "company": "Nutanix"
+        },
+        {
+            "name": "Christopher Wong",
+            "role": "SoC Design Engineering Intern",
+            "company": "Intel Corporation"
         }
     ]
   }
