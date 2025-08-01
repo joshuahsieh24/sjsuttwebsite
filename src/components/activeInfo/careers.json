@@ -1,0 +1,214 @@
+{
+  "2025": {
+    "fulltime": [
+        {
+            "name": "Anwar Mujeeb",
+            "role": "Software Engineer",
+            "company": "Bloomberg"
+        },
+        {
+            "name": "William Xuan",
+            "role": "Software Engineer",
+            "company": "Stanford CPWB Lab"
+        },
+        {
+            "name": "Russell Semsem",
+            "role": "Cyber Analyst",
+            "company": "Deloitte"
+        },
+        {
+            "name": "Prathyush Jonnalagadda",
+            "role": "Software Engineer",
+            "company": "KPMG"
+        },
+        {
+            "name": "Duy-Anh Dang",
+            "role": "Software Engineer",
+            "company": "Supermicro"
+        }
+    ],
+    "interns": [
+        {
+            "name": "Janelle Bautista",
+            "role": "Supply Chain Intern",
+            "company": "Tesla"
+        },
+        {
+            "name": "Kyle Chu",
+            "role": "Software Engineering Intern",
+            "company": "Blackhawk Networks"
+        },
+        {
+            "name": "Kevin Tsoi",
+            "role": "Software Engineering Intern",
+            "company": "Atlassian"
+        },
+        {
+            "name": "Athish Kumar",
+            "role": "Software Engineering Intern",
+            "company": "Oracle"
+        },
+        {
+            "name": "Owen Hall",
+            "role": "Software Engineering Intern",
+            "company": "CVS Health"
+        },
+        {
+            "name": "Natalie Tran",
+            "role": "Software Engineering Intern",
+            "company": "US Navy"
+        },
+        {
+            "name": "Hari Kotamsetti",
+            "role": "Software Engineering Intern",
+            "company": "STMicroelectronics"
+        },
+        {
+            "name": "Joshua Hsieh",
+            "role": "Salesforce Developer Intern",
+            "company": "Delta Dental"
+        },
+        {
+            "name": "Kaito Kermabon",
+            "role": "Operations Engineering Intern",
+            "company": "NASA"
+        },
+        {
+            "name": "Drew Tom",
+            "role": "Software Engineering Intern",
+            "company": "USAA"
+        },
+        {
+            "name": "Bradley Okajima",
+            "role": "Technical Sales Engineering Intern",
+            "company": "Renesas Electronics"
+        },
+        {
+            "name": "Sohum Tiwary",
+            "role": "Controls Engineering Intern",
+            "company": "SLAC National Accelerator Laboratory"
+        },
+        {
+            "name": "Huy Duong",
+            "role": "Software Engineering Intern",
+            "company": "Nutanix"
+        },
+        {
+            "name": "Alan Wang",
+            "role": "Software Engineering Intern",
+            "company": "Applied Materials"
+        },
+        {
+            "name": "Akshitaa Balasai",
+            "role": "Product Manager Intern",
+            "company": "American Express"
+        },
+        {
+            "name": "Krishiv Haranath",
+            "role": "Software Engineering Intern",
+            "company": "GoFundMe"
+        },
+        {
+            "name": "James Kim",
+            "role": "Solutions Architect Intern",
+            "company": "Amazon"
+        },
+        {
+            "name": "Christopher Wong",
+            "role": "Design Engineering Intern",
+            "company": "Intel Corporation"
+        },
+        {
+            "name": "Lac-Phong Nguyen",
+            "role": "Software Engineering Intern",
+            "company": "Tabapay"
+        },
+        {
+            "name": "Jacky Zhuang",
+            "role": "Quality Engineering Intern",
+            "company": "Shockwave Medical"
+        },
+        {
+            "name": "Kylie Lam",
+            "role": "Package Engineering Intern",
+            "company": "Starbucks"
+        }
+    ]
+  },
+  "2024": {
+    "fulltime": [
+        {
+            "name": "Nyun Ei Hlaing",
+            "role": "Software Engineer",
+            "company": "Dell Technologies"
+        },
+        {
+            "name": "Dylan Subijano",
+            "role": "Design Engineer",
+            "company": "Mark Thomas"
+        },
+        {
+            "name": "Rohith Iyengar",
+            "role": "AI Engineer",
+            "company": "H.P."
+        },
+        {
+            "name": "Ryan Rigor",
+            "role": "Software Engineer",
+            "company": "Commure"
+        },
+        {
+            "name": "Anushka Chokshi",
+            "role": "Software Engineer",
+            "company": "Blackhawk Networks"
+        }
+    ],
+    "interns": [
+        {
+            "name": "Lac-Phong Nguyen",
+            "role": "Software Engineering Intern",
+            "company": "Vialto Partners"
+        },
+        {
+            "name": "Huy Duong",
+            "role": "Software Engineering Intern",
+            "company": "Vialto Partners"
+        },
+        {
+            "name": "Natalie Tran",
+            "role": "Software Engineering Intern",
+            "company": "Vialto Partners"
+        },
+        {
+            "name": "Mahek Kothari",
+            "role": "Software Engineering Intern",
+            "company": "Vialto Partners"
+        },
+        {
+            "name": "Neha Washikar",
+            "role": "Software Engineering Intern",
+            "company": "Meta"
+        },
+        {
+            "name": "Bradley Okajima",
+            "role": "Laser Characterization Intern",
+            "company": "STMicroelectronics"
+        },
+        {
+            "name": "William Xuan",
+            "role": "Laser Characterization Intern",
+            "company": "STMicroelectronics"
+        },
+        {
+            "name": "Anwar Mujeeb",
+            "role": "Machine Learning Intern",
+            "company": "STMicroelectronics"
+        },
+        {
+            "name": "Charmi Athuluru",
+            "role": "Systems Reliability Engineering Intern",
+            "company": "Nutanix"
+        }
+    ]
+  }
+}
