@@ -30,6 +30,10 @@ Examples:
 - **Deprecated**: Features that are planned for removal
 
 ---
+## [1.0.1] - 2025-08-07
+### changed
+- Removed Invite Only from Rush Timeline
+- Corrected Huy Major
 
 ## [1.0.0] - 2025-08-06
 
