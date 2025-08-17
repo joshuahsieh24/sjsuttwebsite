@@ -31,9 +31,11 @@ Examples:
 
 ---
 ## [1.0.1] - 2025-08-07
-### changed
+### Changed
 - Removed Invite Only from Rush Timeline
 - Corrected Huy Major
+- Carousel bug fixes
+- Updated FAQs
 
 ## [1.0.0] - 2025-08-06
 
