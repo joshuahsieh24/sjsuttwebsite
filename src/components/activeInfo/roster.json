@@ -304,12 +304,6 @@
             "class": "Mu"
         },
         {
-            "name": "Erik Cheng",
-            "image": "./headshots/erik.jpg",
-            "major": "Electrical Engineering",
-            "class": "Mu"
-        },
-        {
             "name": "Victor Tran",
             "image": "./headshots/victor.jpg",
             "major": "Electrical Engineering",
@@ -343,12 +337,6 @@
             "name": "Logan Gee",
             "image": "./headshots/logangee.jpg",
             "major": "Mechanical Engineering",
-            "class": "Mu"
-        },
-        {
-            "name": "Erik Cheng",
-            "image": "./headshots/erik.jpg",
-            "major": "Electrical Engineering",
             "class": "Mu"
         },
         {
