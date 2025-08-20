@@ -98,10 +98,13 @@ const Navbar: React.FC = () => {
               </li>
             );
           })}
-          <li>
-            <Link href="#" className="px-4 py-2 bg-[#fecb33] text-[#141416] rounded-full hover:opacity-80">
+          <li className="relative group">
+            <Link href="#" className="px-4 py-2 bg-[#e2e8f0] text-[#94a3b8] rounded-full pointer-events-none cursor-not-allowed">
               Apply
             </Link>
+            <span className="absolute top-full text-center whitespace-nowrap left-1/2 -translate-x-1/2 mb-2 p-2 rounded-md text-xs text-white bg-gray-700 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+              Apply soon
+            </span>
           </li>
         </ul>
 
@@ -142,7 +145,7 @@ const Navbar: React.FC = () => {
                   );
                 })}
                 <li>
-                  <Link href="#" className="px-4 py-2 bg-[#fecb33] text-[#141416] rounded-full hover:opacity-80">
+                  <Link href="#" className="px-4 py-2 bg-[#e2e8f0] text-[#94a3b8] rounded-full pointer-events-none cursor-not-allowed">
                     Apply
                   </Link>
                 </li>
