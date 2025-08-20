@@ -38,9 +38,17 @@ npm run dev
 
 Visit [http://localhost:3000](http://localhost:3000) to view the site.
 
-### Production
+### Deployment (Vercel)
 
-TODO ... Finish this section ... vercel deployment instructions
+This project is deployed using [Vercel](https://vercel.com).
+
+* All commits pushed to `main` are automatically deployed to **Production**.
+* Pull requests (PRs) create **Preview Deployments**, which let you test changes before merging.
+* Environment variables (API keys, secrets, etc.) are managed directly in the Vercel project settings.
+
+⚠️ **Note:**  
+If you need to update deployment settings (e.g., environment variables, build configuration, domain setup), please contact the **website maintainers**. Do not commit secrets into the repository.
+
 
 ### Linting
 
@@ -101,7 +109,7 @@ sjsuttwebsite/
 3. Run `npm run lint` and ensure the project builds.
 4. Commit with clear messages and open a pull request describing your changes.
 
-> [!NOTE] 
+> [!NOTE]
 > Main branch is locked from direct contributions.
 
 ## License
