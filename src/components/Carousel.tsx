@@ -39,7 +39,7 @@ const Carousel: React.FC<CarouselProps> = ({ images }) => {
         {/* Left Arrow */}
         <button
           onClick={prev}
-          className="absolute left-2 top-1/2 -translate-y-1/2 bg-black/40 hover:bg-black/60 text-white text-3xl rounded-full p-2 transition"
+          className="absolute left-2 top-1/2 -translate-y-1/2 bg-black/40 hover:bg-black/60 text-white text-lg rounded-full w-10 h-10 flex items-center justify-center transition cursor-pointer"
           aria-label="Previous Slide"
         >
           ←
@@ -48,7 +48,7 @@ const Carousel: React.FC<CarouselProps> = ({ images }) => {
         {/* Right Arrow */}
         <button
           onClick={next}
-          className="absolute right-2 top-1/2 -translate-y-1/2 bg-black/40 hover:bg-black/60 text-white text-3xl rounded-full p-2 transition"
+          className="absolute right-2 top-1/2 -translate-y-1/2 bg-black/40 hover:bg-black/60 text-white text-lg rounded-full w-10 h-10 flex items-center justify-center transition cursor-pointer"
           aria-label="Next Slide"
         >
           →
