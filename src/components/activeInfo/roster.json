@@ -80,6 +80,13 @@
             "class": "Kappa"
         },
         {
+            "name": "Alan Wang",
+            "role": "Webmaster",
+            "image": "./headshots/alan_wang.jpg",
+            "major": "Computer Science",
+            "class": "Iota"
+        },
+        {
             "name": "Jomi Arockiasamy",
             "role": "Community Service Chair",
             "image": "./headshots/jomi_arockiasamy.jpg",
@@ -194,12 +201,6 @@
             "image": "./headshots/sohum_tiwary.jpg",
             "major": "Computer Engineering",
             "class": "Theta"
-        },
-        {
-            "name": "Alan Wang",
-            "image": "./headshots/alan_wang.jpg",
-            "major": "Computer Science",
-            "class": "Iota"
         },
         {
             "name": "Lac-Phong Nguyen",
