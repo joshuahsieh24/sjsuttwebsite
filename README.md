@@ -4,19 +4,17 @@ This repository contains the source for Theta Tau's San José State University c
 
 ## Features
 
-* [![Next][Next.js]][Next-url]
-
-- Tailwind CSS v4 for utility-first styling
-- Modular React components for navigation, carousels, and content sections
-- Static JSON data for active members and career resources
-- Optimized assets served from the `public/` directory
+* Tailwind CSS v4 for utility-first styling
+* Modular React components for navigation, carousels, and content sections
+* Static JSON data for active members and career resources
+* Optimized assets served from the `public/` directory
 
 ## Getting Started
 
 ### Prerequisites
 
-- Node.js 18.17 or newer
-- npm 10 or newer (or an alternative package manager)
+* Node.js 18.17 or newer
+* npm 10 or newer (or an alternative package manager)
 
 ### Installation
 
@@ -40,15 +38,14 @@ Visit [http://localhost:3000](http://localhost:3000) to view the site.
 
 ### Deployment (Vercel)
 
-This project is deployed using [Vercel](https://vercel.com).
+This project is deployed using [Vercel](https://vercel.com). The project is already setup on Vercel, the only active changes needed for deployment are going to be adding secrets/API keys, otherwise you don't need to worry.
 
 * All commits pushed to `main` are automatically deployed to **Production**.
 * Pull requests (PRs) create **Preview Deployments**, which let you test changes before merging.
 * Environment variables (API keys, secrets, etc.) are managed directly in the Vercel project settings.
 
-⚠️ **Note:**  
-If you need to update deployment settings (e.g., environment variables, build configuration, domain setup), please contact the **website maintainers**. Do not commit secrets into the repository.
-
+> [!CAUTION]
+> If you need to update deployment settings (e.g., environment variables, build configuration, domain setup), please contact the **website maintainers/webmaster**. Do not commit secrets into the repository.
 
 ### Linting
 
@@ -110,11 +107,11 @@ sjsuttwebsite/
 4. Commit with clear messages and open a pull request describing your changes.
 
 > [!NOTE]
-> Main branch is locked from direct contributions.
+> Main branch is locked from direct contributions. Use branches.
 
 ## License
 
-This project does not currently specify a license. If you plan to use this code, please contact the maintainers.
+This project does not currently specify a license. If you plan to use this code, please contact website maintainers.
 
 ## Future Work
 
