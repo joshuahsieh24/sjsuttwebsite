@@ -1,37 +1,120 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Theta Tau SJSU Website
+
+This repository contains the source for Theta Tau's San José State University chapter website. The app is built with **Next.js**, **TypeScript**, and **Tailwind CSS**, providing a modern and responsive experience.
+
+## Features
+
+* Tailwind CSS v4 for utility-first styling
+* Modular React components for navigation, carousels, and content sections
+* Static JSON data for active members and career resources
+* Optimized assets served from the `public/` directory
 
 ## Getting Started
 
-First, run the development server:
+### Prerequisites
+
+* Node.js 18.17 or newer
+* npm 10 or newer (or an alternative package manager)
+
+### Installation
+
+Clone the repository and install dependencies:
+
+```bash
+git clone https://github.com/your-org/sjsu-seo-tt-website.git
+cd sjsu-seo-tt-website
+npm install
+```
+
+### Development
+
+Run the development server:
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Visit [http://localhost:3000](http://localhost:3000) to view the site.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### Deployment (Vercel)
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+This project is deployed using [Vercel](https://vercel.com). The project is already setup on Vercel, the only active changes needed for deployment are going to be adding secrets/API keys, otherwise you don't need to worry.
 
-## Learn More
+* All commits pushed to `main` are automatically deployed to **Production**.
+* Pull requests (PRs) create **Preview Deployments**, which let you test changes before merging.
+* Environment variables (API keys, secrets, etc.) are managed directly in the Vercel project settings.
 
-To learn more about Next.js, take a look at the following resources:
+> [!CAUTION]
+> If you need to update deployment settings (e.g., environment variables, build configuration, domain setup), please contact the **website maintainers/webmaster**. Do not commit secrets into the repository.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+### Linting
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+Check the codebase with ESLint:
 
-## Deploy on Vercel
+```bash
+npm run lint
+```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+or just use prettier, which comes with standard syntax guidelines for typescript within your IDE.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Folder Structure
 
+```txt
+sjsuttwebsite/
+├── public/              # Static assets
+│   ├── companies/       # Company logos
+│   ├── headshots/       # Member photos
+│   ├── images/          # Event/gallery images
+│   └── *.svg/png        # Icons and misc assets
+├── src/
+│   ├── app/             # Next.js App Router pages
+│   │   ├── FAQ/
+│   │   ├── brothers/
+│   │   ├── careers/
+│   │   ├── rush/
+│   │   ├── globals.css
+│   │   ├── layout.tsx
+│   │   └── page.tsx
+│   └── components/      # Reusable UI
+│       ├── BrotherCard.tsx
+│       ├── Carousel.tsx
+│       ├── CompanyLogoDisplay.tsx
+│       ├── Footer.tsx
+│       ├── Navbar.tsx
+│       ├── OfficerCard.tsx
+│       ├── ValueCard.tsx
+│       └── activeInfo/  # Static JSON data
+├── CHANGELOG.md
+├── README.md
+├── eslint.config.mjs
+├── next.config.ts
+├── package.json
+├── postcss.config.mjs
+├── tsconfig.json
+└── (lock/config files)
+```
+
+## Contributing
+
+1. Create a feature branch:
+
+    ```bash
+    git checkout -b name/your-feature
+    ```
+
+2. Install dependencies and make your changes.
+3. Run `npm run lint` and ensure the project builds.
+4. Commit with clear messages and open a pull request describing your changes.
+
+> [!NOTE]
+> Main branch is locked from direct contributions. Use branches.
+
+## License
+
+This project does not currently specify a license. If you plan to use this code, please contact website maintainers.
+
+## Future Work
+
+* Authentication and role-based access
+* Database-backed features (e.g., rushee applications, activity tracking)
+* Expanded content management tools
