@@ -199,6 +199,7 @@ export default function BrothersPage() {
                 <BrotherCard
                   name={officer.name}
                   image={officer.image}
+                  hoverImage={officer.hoverImage}
                   major={officer.major}
                   class={officer.class}
                 />
