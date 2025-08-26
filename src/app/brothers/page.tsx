@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from 'react';
 import roster from "../../components/activeInfo/roster.json";
+import greekAlphabet from "../../components/activeInfo/greekAlphabet.json";
 import BrotherCard from "@/components/BrotherCard";
 import OfficerCard from "@/components/OfficerCard";
 
@@ -34,7 +35,7 @@ export default function BrothersPage() {
     if (!isMdOrLarger) {
       // For smaller screens, immediately show all content without animations
       setRevealedSections(new Set([0, 1, 2]));
-      
+
       // Add visible classes to all elements immediately
       sectionRefs.current.forEach((section) => {
         if (section) {
@@ -48,7 +49,7 @@ export default function BrothersPage() {
           });
         }
       });
-      
+
       return;
     }
 
@@ -74,50 +75,47 @@ export default function BrothersPage() {
     const observer = new IntersectionObserver((entries) => {
       entries.forEach((entry) => {
         const sectionIndex = sectionRefs.current.findIndex(ref => ref === entry.target);
-        
+
         if (entry.isIntersecting) {
           // When scrolling down, reveal sections
           if (scrollDirection === 'down' || !revealedSections.has(sectionIndex)) {
             setRevealedSections(prev => new Set(prev).add(sectionIndex));
-            
+
             // Add visible class to header
-            const header = entry.target.querySelector('h1');
-            if (header) {
-              header.classList.add('visible');
-              
-              // After header animation, start card animations
-              setTimeout(() => {
-                const cards = entry.target.querySelectorAll('.member-card');
-                cards.forEach((card, index) => {
-                  setTimeout(() => {
-                    card.classList.add('visible');
-                  }, index * 100);
-                });
-              }, 400);
-            }
+            const headers = entry.target.querySelectorAll('h1, h2');
+            headers.forEach(header => header.classList.add('visible'));
+
+            // After header animation, start card animations
+            setTimeout(() => {
+              const cards = entry.target.querySelectorAll('.member-card');
+              cards.forEach((card, index) => {
+                setTimeout(() => {
+                  card.classList.add('visible');
+                }, index * 100);
+              });
+            }, 400);
           }
         } else if (!entry.isIntersecting && scrollDirection === 'up') {
           // When scrolling up, only hide if this is the highest revealed section
           setRevealedSections(prev => {
             const highestRevealedSection = Math.max(...prev);
-            
+
             if (sectionIndex === highestRevealedSection) {
               // Check if section is below viewport (scrolled past it going up)
               const rect = entry.target.getBoundingClientRect();
               if (rect.top > window.innerHeight) {
                 const newSet = new Set(prev);
                 newSet.delete(sectionIndex);
-                
+
                 // Remove visible classes
-                const header = entry.target.querySelector('h1');
-                if (header) {
-                  header.classList.remove('visible');
-                }
+                const headers = entry.target.querySelectorAll('h1, h2');
+                headers.forEach(header => header.classList.remove('visible'));
+
                 const cards = entry.target.querySelectorAll('.member-card');
                 cards.forEach((card) => {
                   card.classList.remove('visible');
                 });
-                
+
                 return newSet;
               }
             }
@@ -144,6 +142,31 @@ export default function BrothersPage() {
     sectionRefs.current[index] = el;
   };
 
+  // Sort actives by class then first and last
+  const sortedActives = [...roster.actives].sort((a, b) => {
+    const classA = greekAlphabet.orderMap[a.class as keyof typeof greekAlphabet.orderMap] || Infinity;
+    const classB = greekAlphabet.orderMap[b.class as keyof typeof greekAlphabet.orderMap] || Infinity;
+
+    if (classA !== classB) return classA - classB;
+
+    const firstNameCompare = a.name.split(" ")[0].localeCompare(b.name.split(" ")[0]);
+    if (firstNameCompare !== 0) return firstNameCompare;
+
+    return a.name.split(" ").slice(-1)[0].localeCompare(b.name.split(" ").slice(-1)[0]);
+  });
+
+  // Group actives by class
+  const activesByClass = sortedActives.reduce(
+    (acc, active) => {
+      if (!acc[active.class]) {
+        acc[active.class] = []
+      }
+      acc[active.class].push(active)
+      return acc
+    },
+    {} as Record<string, typeof sortedActives>,
+  )
+
   return (
     <>
       <section ref={setSectionRef(0)} className="min-h-[120px] bg-[#141416] text-white py-10">
@@ -152,21 +175,21 @@ export default function BrothersPage() {
             Executive Board
           </h1>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 w-full">
-            {roster.executive.map((officer, index) => (
+            {roster.executive.map((eboard, index) => (
               <div key={index} className="member-card stagger-fade">
                 <OfficerCard
-                  name={officer.name}
-                  image={officer.image}
-                  major={officer.major}
-                  class={officer.class} 
-                  role={officer.role}
+                  name={eboard.name}
+                  image={eboard.image}
+                  major={eboard.major}
+                  class={eboard.class}
+                  role={eboard.role}
                 />
               </div>
             ))}
           </div>
         </div>
       </section>
-      
+
       <section ref={setSectionRef(1)} className="min-h-[120px] bg-[#141416] text-white py-10">
         <div className="max-w-[1100px] mx-auto px-4 w-full">
           <h1 className="text-3xl md:text-5xl font-thin flex justify-center items-center text-center mb-15 fade-in-section">
@@ -179,7 +202,7 @@ export default function BrothersPage() {
                   name={officer.name}
                   image={officer.image}
                   major={officer.major}
-                  class={officer.class} 
+                  class={officer.class}
                   role={officer.role}
                 />
               </div>
@@ -187,25 +210,30 @@ export default function BrothersPage() {
           </div>
         </div>
       </section>
-      
+
       <section ref={setSectionRef(2)} className="min-h-[120px] bg-[#141416] text-white py-10">
         <div className="max-w-[1100px] mx-auto px-4 w-full">
           <h1 className="text-3xl md:text-5xl font-thin flex justify-center items-center text-center mb-15 fade-in-section">
             Chapter Brothers
           </h1>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 w-full">
-            {roster.actives.map((officer, index) => (
-              <div key={index} className="member-card stagger-fade">
-                <BrotherCard
-                  name={officer.name}
-                  image={officer.image}
-                  hoverImage={officer.hoverImage}
-                  major={officer.major}
-                  class={officer.class}
-                />
+          {Object.entries(activesByClass).map(([greekClass, members]) => (
+            <div key={greekClass} className="mb-12">
+              <h2 className="text-2xl md:text-3xl font-thin flex justify-center items-center text-center mb-8 fade-in-section">{greekClass}</h2>
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 w-full">
+                {members.map((active) => (
+                  <div key={`${active.class}-${active.name}`} className="member-card stagger-fade">
+                    <BrotherCard
+                      name={active.name}
+                      image={active.image}
+                      hoverImage={active.hoverImage}
+                      major={active.major}
+                      class={active.class}
+                    />
+                  </div>
+                ))}
               </div>
-            ))}
-          </div>
+            </div>
+          ))}
         </div>
       </section>
     </>
