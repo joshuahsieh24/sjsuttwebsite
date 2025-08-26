@@ -82,20 +82,18 @@ export default function BrothersPage() {
             setRevealedSections(prev => new Set(prev).add(sectionIndex));
 
             // Add visible class to header
-            const header = entry.target.querySelector('h1');
-            if (header) {
-              header.classList.add('visible');
+            const headers = entry.target.querySelectorAll('h1, h2');
+            headers.forEach(header => header.classList.add('visible'));
 
-              // After header animation, start card animations
-              setTimeout(() => {
-                const cards = entry.target.querySelectorAll('.member-card');
-                cards.forEach((card, index) => {
-                  setTimeout(() => {
-                    card.classList.add('visible');
-                  }, index * 100);
-                });
-              }, 400);
-            }
+            // After header animation, start card animations
+            setTimeout(() => {
+              const cards = entry.target.querySelectorAll('.member-card');
+              cards.forEach((card, index) => {
+                setTimeout(() => {
+                  card.classList.add('visible');
+                }, index * 100);
+              });
+            }, 400);
           }
         } else if (!entry.isIntersecting && scrollDirection === 'up') {
           // When scrolling up, only hide if this is the highest revealed section
@@ -110,10 +108,9 @@ export default function BrothersPage() {
                 newSet.delete(sectionIndex);
 
                 // Remove visible classes
-                const header = entry.target.querySelector('h1');
-                if (header) {
-                  header.classList.remove('visible');
-                }
+                const headers = entry.target.querySelectorAll('h1, h2');
+                headers.forEach(header => header.classList.remove('visible'));
+
                 const cards = entry.target.querySelectorAll('.member-card');
                 cards.forEach((card) => {
                   card.classList.remove('visible');
@@ -157,6 +154,18 @@ export default function BrothersPage() {
 
     return a.name.split(" ").slice(-1)[0].localeCompare(b.name.split(" ").slice(-1)[0]);
   });
+
+  // Group actives by class
+  const activesByClass = sortedActives.reduce(
+    (acc, active) => {
+      if (!acc[active.class]) {
+        acc[active.class] = []
+      }
+      acc[active.class].push(active)
+      return acc
+    },
+    {} as Record<string, typeof sortedActives>,
+  )
 
   return (
     <>
@@ -207,19 +216,24 @@ export default function BrothersPage() {
           <h1 className="text-3xl md:text-5xl font-thin flex justify-center items-center text-center mb-15 fade-in-section">
             Chapter Brothers
           </h1>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 w-full">
-            {sortedActives.map((active, index) => (
-              <div key={index} className="member-card stagger-fade">
-                <BrotherCard
-                  name={active.name}
-                  image={active.image}
-                  hoverImage={active.hoverImage}
-                  major={active.major}
-                  class={active.class}
-                />
+          {Object.entries(activesByClass).map(([greekClass, members]) => (
+            <div key={greekClass} className="mb-12">
+              <h2 className="text-2xl md:text-3xl font-thin flex justify-center items-center text-center mb-8 fade-in-section">{greekClass}</h2>
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 w-full">
+                {members.map((active) => (
+                  <div key={`${active.class}-${active.name}`} className="member-card stagger-fade">
+                    <BrotherCard
+                      name={active.name}
+                      image={active.image}
+                      hoverImage={active.hoverImage}
+                      major={active.major}
+                      class={active.class}
+                    />
+                  </div>
+                ))}
               </div>
-            ))}
-          </div>
+            </div>
+          ))}
         </div>
       </section>
     </>
