@@ -87,6 +87,13 @@
       "class": "Iota"
     },
     {
+      "name": "Joshua Hsieh",
+      "role": "Webmaster",
+      "image": "./headshots/joshua_hsieh.jpg",
+      "major": "Software Engineering",
+      "class": "Kappa"
+    },
+    {
       "name": "Jomi Arockiasamy",
       "role": "Community Service Chair",
       "image": "./headshots/jomi_arockiasamy.jpg",
@@ -232,12 +239,6 @@
       "image": "./headshots/janelle_bautista.jpg",
       "major": "Packaging Science",
       "class": "Iota"
-    },
-    {
-      "name": "Joshua Hsieh",
-      "image": "./headshots/joshua_hsieh.jpg",
-      "major": "Software Engineering",
-      "class": "Kappa"
     },
     {
       "name": "Justin Doan",
