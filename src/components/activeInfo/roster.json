@@ -59,13 +59,6 @@
       "class": "Kappa"
     },
     {
-      "name": "Helena Teung-Ouk",
-      "role": "New Member Educator",
-      "image": "./headshots/helena_teung-ouk.jpg",
-      "major": "Interdisciplinary Engineering",
-      "class": "Kappa"
-    },
-    {
       "name": "Natalie Tran",
       "role": "Professional Chair",
       "image": "./headshots/natalie_tran.jpg",
@@ -283,6 +276,12 @@
       "name": "Athish Kumar",
       "image": "./headshots/athish_kumar.jpg",
       "major": "Data Science",
+      "class": "Kappa"
+    },
+    {
+      "name": "Helena Teung-Ouk",
+      "image": "./headshots/helena_teung-ouk.jpg",
+      "major": "Interdisciplinary Engineering",
       "class": "Kappa"
     },
     {
