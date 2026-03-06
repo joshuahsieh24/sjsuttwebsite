@@ -6,7 +6,7 @@ import { useState, useEffect } from "react";
 import logo from "../../public/images/logo.png";
 import { useRouter, usePathname } from "next/navigation";
 
-const NAV_ITEMS = ["about","brothers","rush","FAQ","careers"];
+const NAV_ITEMS = ["about", "brothers", "rush", "FAQ", "careers", "sponsorship"];
 
 const Navbar: React.FC = () => {
   const [menuOpen, setMenuOpen] = useState(false);
